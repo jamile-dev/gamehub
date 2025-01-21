@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Game Hub"
 include(":app")
- 
+include(":domain")
