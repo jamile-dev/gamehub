@@ -15,7 +15,7 @@ class GameRepositoryImpl @Inject constructor(
         return response.results.map { it.toDomainModel() }
     }
 
-    override suspend fun getMostRecentGames(): List<Game> {
+    override suspend fun getRecentGames(): List<Game> {
         val response = gameApiService.getMostRecentGames()
         return response.results.map { it.toDomainModel() }
     }
