@@ -4,8 +4,8 @@ import dev.jamile.domain.models.Game
 import dev.jamile.domain.models.GameDetails
 
 interface GameRepository {
-    suspend fun getPopularGames(): List<Game>
-    suspend fun getRecentGames(): List<Game>
+    suspend fun getPopularGames(page: Int): List<Game>
+    suspend fun getRecentGames(page: Int): List<Game>
     suspend fun searchGames(query: String): List<Game>
     suspend fun getGameDetails(gameId: String): GameDetails
 }

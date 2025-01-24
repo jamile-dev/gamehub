@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetRecentGamesUseCase @Inject constructor(
     private val repository: GameRepository
 ) {
-    suspend fun execute(): List<Game> {
-        return repository.getRecentGames()
+    suspend fun execute(page: Int): List<Game> {
+        return repository.getRecentGames(page)
     }
 }

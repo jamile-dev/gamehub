@@ -9,13 +9,17 @@ interface GameApi {
     @GET("games")
     suspend fun getPopularGames(
         @Query("ordering") ordering: String = "-added",
-        @Query("page_size") pageSize: Int = 10
+        @Query("page_size") pageSize: Int = 10,
+        @Query("page") page: Int
+
     ): GameResponse
 
     @GET("games")
     suspend fun getMostRecentGames(
-        @Query("ordering") ordering: String = "-released",
-        @Query("page_size") pageSize: Int = 10
+        @Query("ordering") ordering: String = "-rating",
+        @Query("dates") dates: String,
+        @Query("page_size") pageSize: Int = 10,
+        @Query("page") page: Int
     ): GameResponse
 
     @GET("games/search")

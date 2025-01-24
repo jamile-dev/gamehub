@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation(project(":domain"))
+    implementation(project(":data"))
 
     implementation(libs.hilt.android)
     implementation(libs.androidx.core.ktx)
@@ -55,6 +56,9 @@ dependencies {
     implementation(libs.coil.network.okhttp)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.androidx.paging.common.android)
+    implementation(libs.paging)
+    implementation(libs.pagingCompose)
 
     kapt(libs.hilt.compiler)
 
