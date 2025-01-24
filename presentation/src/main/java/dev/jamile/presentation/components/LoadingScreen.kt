@@ -13,11 +13,12 @@ import androidx.compose.ui.unit.dp
 /**
  * A composable that displays a loading indicator centered within a box.
  * The box has a fixed height and fills the maximum width available.
+ * @param modifier Optional [Modifier] to apply to [LoadingScreen]
  */
 @Composable
-fun LoadingScreen() {
+fun LoadingScreen(modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(100.dp)
             .padding(20.dp),
