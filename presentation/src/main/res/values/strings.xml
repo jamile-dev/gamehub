@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="game_banner">Game Banner</string>
+    <string name="popular_games">Popular Games</string>
+    <string name="error">Error: %1$s</string>
+    <string name="best_of_year">Best of Year</string>
+</resources>

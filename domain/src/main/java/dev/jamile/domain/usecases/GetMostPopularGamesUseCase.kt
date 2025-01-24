@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetMostPopularGamesUseCase @Inject constructor(
     private val repository: GameRepository
 ) {
-    suspend fun execute(): List<Game> {
-        return repository.getPopularGames()
+    suspend fun execute(page: Int): List<Game> {
+        return repository.getPopularGames(page)
     }
 }

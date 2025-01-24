@@ -13,6 +13,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        val apiKey = System.getenv("API_KEY")
+        buildConfigField("String", "API_KEY", "\"$apiKey\"")
     }
 
     buildTypes {
@@ -28,6 +30,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    buildFeatures {
+        buildConfig = true
+    }
     kotlinOptions {
         jvmTarget = "11"
     }
@@ -40,7 +45,10 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.hilt.android)
     implementation(libs.retrofit)
+    implementation(libs.okhttp.logging.interceptor)
     implementation(libs.retrofit.converter.gson)
+    implementation(libs.paging)
+    implementation(libs.pagingCompose)
     kapt(libs.hilt.compiler)
 
     testImplementation(libs.junit)
