@@ -34,8 +34,8 @@ class GameRepositoryImpl @Inject constructor(
             .filter { game -> game.tags?.none { it in excludeTags } ?: true }
     }
 
-    override suspend fun searchGames(query: String): List<Game> {
-        val response = gameApiService.searchGames(query)
+    override suspend fun searchGamesPaged(query: String, page: Int): List<Game> {
+        val response = gameApiService.searchGames(query, page)
         return response.results.map { it.toDomainModel() }
     }
 
