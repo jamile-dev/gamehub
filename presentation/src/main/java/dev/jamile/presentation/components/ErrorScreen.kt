@@ -23,11 +23,13 @@ import dev.jamile.presentation.R
  *
  * @param message The error message to display.
  * @param onRetry The callback to invoke when the retry button is clicked.
+ * @param modifier Optional [Modifier] to apply to [ErrorScreen]
+ *
  */
 @Composable
-fun ErrorScreen(message: String, onRetry: () -> Unit) {
+fun ErrorScreen(message: String, onRetry: () -> Unit, modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
