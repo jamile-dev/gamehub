@@ -5,14 +5,14 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-val primary = Color(0xFFFFD700) // Golden
+val LightPrimary = Color(0xFFFFD700) // Golden
 
 // CustomColors
 val CardBackgroundColor = Color(0xFF202020)
 val ScreenBackgroundColor = Color(0xFF161616)
 
 private val LightColorScheme = lightColorScheme(
-    primary = primary,
+    primary = LightPrimary,
 )
 
 @Composable
