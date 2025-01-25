@@ -13,11 +13,15 @@ val ScreenBackgroundColor = Color(0xFF0D121E)
 
 private val LightColorScheme = lightColorScheme(
     primary = LightPrimary,
+    background = ScreenBackgroundColor
 )
 
 @Composable
-fun GameHubTheme(content: @Composable () -> Unit) {
+fun GameHubTheme(
+    content: @Composable () -> Unit
+) {
     val colors = LightColorScheme
+
     MaterialTheme(
         colorScheme = colors,
         typography = AppTypography,

@@ -8,5 +8,6 @@ data class GameDetails(
     val released: String?,
     val backgroundImage: String?,
     val rating: Double?,
-    val platforms: List<String>?
+    val platforms: List<String>?,
+    val genres: List<String>?
 )

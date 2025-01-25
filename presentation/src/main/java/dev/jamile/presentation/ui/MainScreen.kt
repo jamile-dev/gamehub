@@ -1,7 +1,10 @@
 package dev.jamile.presentation.ui
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigation
 //noinspection UsingMaterialAndMaterial3Libraries
@@ -29,11 +32,13 @@ fun MainScreen() {
             bottomBar = { BottomNavigationBar(navController) },
             content = { paddingValues ->
                 Box(
-                    modifier = Modifier.padding(paddingValues)
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .statusBarsPadding()
                 ) {
                     Navigation(navController)
                 }
-            }
+            },
         )
     }
 }
@@ -47,7 +52,8 @@ fun BottomNavigationBar(navController: NavHostController) {
     )
     BottomNavigation(
         backgroundColor = ScreenBackgroundColor,
-        contentColor = Color.White
+        contentColor = Color.White,
+        modifier = Modifier.navigationBarsPadding()
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
