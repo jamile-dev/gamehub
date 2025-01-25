@@ -8,8 +8,8 @@ import androidx.compose.ui.graphics.Color
 val LightPrimary = Color(0xFFFFD700) // Golden
 
 // CustomColors
-val CardBackgroundColor = Color(0xFF202020)
-val ScreenBackgroundColor = Color(0xFF161616)
+val CardBackgroundColor = Color(0xFF323645)
+val ScreenBackgroundColor = Color(0xFF0D121E)
 
 private val LightColorScheme = lightColorScheme(
     primary = LightPrimary,

@@ -22,8 +22,12 @@ interface GameApi {
         @Query("page") page: Int
     ): GameResponse
 
-    @GET("games/search")
-    suspend fun searchGames(@Query("query") query: String): GameResponse
+    @GET("games")
+    suspend fun searchGames(
+        @Query("search") search: String,
+        @Query("page") page: Int,
+        @Query("search_precise") searchPrecise: Boolean? = true,
+    ): GameResponse
 
     @GET("games/{gameId}")
     suspend fun getGameDetails(@Path("gameId") gameId: String): GameDetailsDto
