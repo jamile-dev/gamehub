@@ -4,6 +4,7 @@ import dev.jamile.data.remote.GameApi
 import dev.jamile.data.utils.excludeTags
 import dev.jamile.domain.models.Game
 import dev.jamile.domain.models.GameDetails
+import dev.jamile.domain.models.Result
 import dev.jamile.domain.repository.GameRepository
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter.ISO_DATE
@@ -39,8 +40,12 @@ class GameRepositoryImpl @Inject constructor(
         return response.results.map { it.toDomainModel() }
     }
 
-    override suspend fun getGameDetails(gameId: String): GameDetails {
-        val response = gameApiService.getGameDetails(gameId)
-        return response.toDomainModel()
+    override suspend fun getGameDetails(gameId: String): Result<GameDetails> {
+        return try {
+            val response = gameApiService.getGameDetails(gameId)
+            Result.Success(response.toDomainModel())
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
     }
 }

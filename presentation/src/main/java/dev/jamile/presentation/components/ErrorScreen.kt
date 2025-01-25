@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.jamile.presentation.R
 
@@ -27,7 +28,7 @@ import dev.jamile.presentation.R
  *
  */
 @Composable
-fun ErrorScreen(message: String, onRetry: () -> Unit, modifier: Modifier = Modifier) {
+fun ErrorScreen(message: String?, onRetry: () -> Unit, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -41,7 +42,7 @@ fun ErrorScreen(message: String, onRetry: () -> Unit, modifier: Modifier = Modif
             modifier = Modifier.size(128.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = message, style = MaterialTheme.typography.bodyLarge)
+        Text(text = message ?: stringResource(R.string.unkown_error), style = MaterialTheme.typography.bodyLarge)
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = onRetry) {
             Text(text = "Retry")

@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import dev.jamile.domain.models.Game
 import dev.jamile.presentation.R
+import dev.jamile.presentation.ui.theme.AppTypography
 import dev.jamile.presentation.ui.theme.CardBackgroundColor
 
 /**
@@ -43,7 +44,7 @@ fun GameCarouselItem(game: Game, onClick: () -> Unit, modifier: Modifier = Modif
             .padding(8.dp)
             .width(220.dp)
             .padding(bottom = 12.dp)
-            .height(220.dp)
+            .height(240.dp)
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.elevatedCardElevation(4.dp),
@@ -62,37 +63,35 @@ fun GameCarouselItem(game: Game, onClick: () -> Unit, modifier: Modifier = Modif
                     .fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
+
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
                     .fillMaxWidth()
             ) {
+                PlatformLogos(
+                    platforms = game.platforms ?: emptyList(),
+                )
                 Text(
                     text = game.name,
                     color = Color.White,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = AppTypography.titleLarge,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.align(Alignment.Start)
+                    modifier = Modifier.align(Alignment.Start).padding(8.dp)
+
                 )
-                game.description?.let {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier
-                            .padding(top = 4.dp)
-                            .align(Alignment.Start)
-                    )
-                }
             }
+
+            Spacer(modifier = Modifier.height(4.dp))
+
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                    .padding(horizontal = 4.dp, vertical = 4.dp)
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 GenreChips(game.genres, modifier = Modifier.weight(1f))
-                RatingIndicator(rating = game.rating, modifier = Modifier.size(24.dp))
+                RatingIndicator(rating = game.rating, modifier = Modifier.size(32.dp))
             }
         }
     }

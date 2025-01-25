@@ -1,6 +1,7 @@
 package dev.jamile.presentation.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,7 +21,6 @@ fun LoadingScreen(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(100.dp)
             .padding(20.dp),
         contentAlignment = Alignment.Center,
     ) {
