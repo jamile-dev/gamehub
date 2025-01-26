@@ -11,7 +11,6 @@ interface GameApi {
         @Query("ordering") ordering: String = "-added",
         @Query("page_size") pageSize: Int = 10,
         @Query("page") page: Int
-
     ): GameResponse
 
     @GET("games")
@@ -26,7 +25,7 @@ interface GameApi {
     suspend fun searchGames(
         @Query("search") search: String,
         @Query("page") page: Int,
-        @Query("search_precise") searchPrecise: Boolean? = true,
+        @Query("search_precise") searchPrecise: Boolean? = true
     ): GameResponse
 
     @GET("games/{gameId}")

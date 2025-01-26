@@ -5,4 +5,5 @@
     <string name="error">Error: %1$s</string>
     <string name="best_of_year">Best of Year</string>
     <string name="no_more_items_to_load">No more items to load</string>
+    <string name="unkown_error">Unkown error</string>
 </resources>

@@ -20,6 +20,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,6 +33,8 @@ import dev.jamile.presentation.components.GameCarouselItem
 import dev.jamile.presentation.components.GameListItem
 import dev.jamile.presentation.components.LoadingScreen
 import dev.jamile.presentation.state.UIState
+import dev.jamile.presentation.ui.theme.AppTypography
+import dev.jamile.presentation.ui.theme.LightPrimary
 import dev.jamile.presentation.ui.theme.Roboto
 import dev.jamile.presentation.ui.theme.ScreenBackgroundColor
 
@@ -46,16 +50,17 @@ fun HomeScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Game Hub",
-                        color = Color.White,
-                        fontSize = 32.sp,
+                        text = "GameHub",
+                        color = LightPrimary,
+                        style = AppTypography.headlineLarge,
                         fontFamily = Roboto,
-                        letterSpacing = 0.15.sp,
+                        fontWeight = FontWeight.ExtraBold,
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = ScreenBackgroundColor
                 ),
+                modifier = Modifier.padding(vertical = 4.dp),
             )
         },
         content = { paddingValues ->
@@ -63,6 +68,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(ScreenBackgroundColor)
+                    .padding(8.dp)
             ) {
                 when (uiState) {
                     is UIState.Loading -> {

@@ -28,11 +28,11 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             try {
-                val popularGamesFlow = Pager(PagingConfig(pageSize = 20)) {
+                val popularGamesFlow = Pager(PagingConfig(pageSize = 10)) {
                     GamesPagingSource { page -> getPopularGamesUseCase.execute(page) }
                 }.flow.cachedIn(viewModelScope)
 
-                val recentGamesFlow = Pager(PagingConfig(pageSize = 20)) {
+                val recentGamesFlow = Pager(PagingConfig(pageSize = 10)) {
                     GamesPagingSource { page -> getRecentGamesUseCase.execute(page) }
                 }.flow.cachedIn(viewModelScope)
 
