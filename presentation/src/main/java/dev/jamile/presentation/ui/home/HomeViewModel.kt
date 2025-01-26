@@ -25,21 +25,27 @@ class HomeViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UIState<HomeGameData>>(UIState.Loading)
     val uiState: StateFlow<UIState<HomeGameData>> = _uiState
 
-    init {
-        viewModelScope.launch {
-            try {
-                val popularGamesFlow = Pager(PagingConfig(pageSize = 10)) {
-                    GamesPagingSource { page -> getPopularGamesUseCase.execute(page) }
-                }.flow.cachedIn(viewModelScope)
+    fun loadGames() = viewModelScope.launch {
+        _uiState.value = UIState.Loading
 
-                val recentGamesFlow = Pager(PagingConfig(pageSize = 10)) {
-                    GamesPagingSource { page -> getRecentGamesUseCase.execute(page) }
-                }.flow.cachedIn(viewModelScope)
-
-                _uiState.value = UIState.Success(HomeGameData(popularGamesFlow, recentGamesFlow))
-            } catch (e: Exception) {
-                _uiState.value = UIState.Error(e.localizedMessage ?: "Unknown error")
-            }
+        val popularGamesResult = try {
+            Pager(PagingConfig(pageSize = 10)) {
+                GamesPagingSource { page -> getPopularGamesUseCase(page) }
+            }.flow
+        } catch (e: Exception) {
+            _uiState.value = UIState.Error(e)
+            return@launch
         }
+
+        val recentGamesResult = try {
+            Pager(PagingConfig(pageSize = 10)) {
+                GamesPagingSource { page -> getRecentGamesUseCase(page) }
+            }.flow
+        } catch (e: Exception) {
+            _uiState.value = UIState.Error(e)
+            return@launch
+        }
+
+        _uiState.value = UIState.Success(HomeGameData(popularGamesResult, recentGamesResult))
     }
 }

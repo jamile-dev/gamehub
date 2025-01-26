@@ -26,11 +26,12 @@ fun SearchScreen(
     viewModel: SearchGameViewModel = hiltViewModel(),
     navigateToDetails: (String) -> Unit
 ) {
-    val query by remember { mutableStateOf("") }
+    val query by viewModel.searchQuery.collectAsState()
     var searchStarted by remember { mutableStateOf(false) }
     val searchJob by remember { mutableStateOf<Job?>(null) }
     val coroutineScope = rememberCoroutineScope()
     val uiState by viewModel.uiState.collectAsState()
+
 
     Column(
         modifier = Modifier
@@ -44,7 +45,7 @@ fun SearchScreen(
             coroutineScope = coroutineScope,
             onSearch = {
                 searchStarted = true
-                viewModel.searchGames(it)
+                viewModel.onSearchQueryChange(it)
             },
             modifier = Modifier
                 .fillMaxWidth()

@@ -42,8 +42,8 @@ dependencies {
     implementation(libs.paging)
     kapt(libs.hilt.compiler)
 
-
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlin.coroutines.test)
+    testImplementation(libs.androidx.core.testing)
 }
