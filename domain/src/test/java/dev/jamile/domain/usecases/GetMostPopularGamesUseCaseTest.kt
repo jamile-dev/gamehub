@@ -12,7 +12,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class GetPopularGamesUseCaseTest {
+class GetMostPopularGamesUseCaseTest {
     private val gameRepository: GameRepository = mockk()
     private val useCase = GetMostPopularGamesUseCase(gameRepository)
 
