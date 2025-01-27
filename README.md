@@ -1,4 +1,6 @@
-# Game Hub App
+<img src="https://github.com/user-attachments/assets/47ff9102-54d1-4c24-ae87-b167d80377bc" alt="drawing" width="120"/>
+
+# Game Hub App 
 
 ## Overview
 Android application designed to display and search Games. The app is built using modern Android development practices and leverages Jetpack Compose for the UI.
