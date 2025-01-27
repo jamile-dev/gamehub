@@ -5,6 +5,10 @@ import dev.jamile.domain.models.Result
 import dev.jamile.domain.repository.GameRepository
 import javax.inject.Inject
 
-class GetMostPopularGamesUseCase @Inject constructor(private val repository: GameRepository) {
-    suspend operator fun invoke(page: Int): Result<List<Game>> = repository.getPopularGames(page)
-}
+class GetMostPopularGamesUseCase
+    @Inject
+    constructor(
+        private val repository: GameRepository,
+    ) {
+        suspend operator fun invoke(page: Int): Result<List<Game>> = repository.getPopularGames(page)
+    }

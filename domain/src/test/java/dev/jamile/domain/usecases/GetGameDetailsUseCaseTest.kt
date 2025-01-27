@@ -11,45 +11,48 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class GetGameDetailsUseCaseTest {
-
     private val gameRepository: GameRepository = mockk()
     private val useCase = GetGameDetailsUseCase(gameRepository)
 
     @Test
-    fun `execute should return Success with game details from repository`() = runTest {
-        // Arrange
-        val mockGameDetails = GameDetails(
-            id = 1,
-            name = "Fake Game",
-            description = "A fake game description.",
-            metacritic = 85,
-            released = "2024-07-20",
-            backgroundImage = "https://example.com/image.jpg",
-            rating = 4.5,
-            platforms = listOf("PC", "PS5"),
-            genres = listOf("Action", "Adventure")
-        )
-        coEvery { gameRepository.getGameDetails(any()) } returns Success(
-            mockGameDetails
-        )
+    fun `execute should return Success with game details from repository`() =
+        runTest {
+            // Arrange
+            val mockGameDetails =
+                GameDetails(
+                    id = 1,
+                    name = "Fake Game",
+                    description = "A fake game description.",
+                    metacritic = 85,
+                    released = "2024-07-20",
+                    backgroundImage = "https://example.com/image.jpg",
+                    rating = 4.5,
+                    platforms = listOf("PC", "PS5"),
+                    genres = listOf("Action", "Adventure"),
+                )
+            coEvery { gameRepository.getGameDetails(any()) } returns
+                Success(
+                    mockGameDetails,
+                )
 
-        // Act
-        val result = useCase.execute("1")
+            // Act
+            val result = useCase.execute("1")
 
-        // Assert
-        assertEquals(Success(mockGameDetails), result)
-    }
+            // Assert
+            assertEquals(Success(mockGameDetails), result)
+        }
 
     @Test
-    fun `execute should return Error when repository throws exception`() = runTest {
-        // Arrange
-        val exception = Exception("Network error")
-        coEvery { gameRepository.getGameDetails(any()) } returns Error(exception)
+    fun `execute should return Error when repository throws exception`() =
+        runTest {
+            // Arrange
+            val exception = Exception("Network error")
+            coEvery { gameRepository.getGameDetails(any()) } returns Error(exception)
 
-        // Act
-        val result = useCase.execute("1")
+            // Act
+            val result = useCase.execute("1")
 
-        // Assert
-        assertEquals(Error(exception), result)
-    }
+            // Assert
+            assertEquals(Error(exception), result)
+        }
 }

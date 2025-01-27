@@ -10,5 +10,5 @@ data class Game(
     val metaScore: Int,
     val releaseDate: String,
     val description: String? = null,
-    val tags: List<String>? = null
+    val tags: List<String>? = null,
 )
