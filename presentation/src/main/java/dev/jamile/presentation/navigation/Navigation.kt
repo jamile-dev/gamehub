@@ -8,10 +8,13 @@ import dev.jamile.presentation.ui.favorites.FavoritesScreen
 import dev.jamile.presentation.ui.gamedetail.GameDetailScreen
 import dev.jamile.presentation.ui.home.HomeScreen
 import dev.jamile.presentation.ui.search.SearchScreen
+import dev.jamile.presentation.ui.splashscreen.SplashScreen
 
 @Composable
 fun Navigation(navController: NavHostController) {
-    NavHost(navController, startDestination = NavItem.Home.route) {
+    NavHost(navController, startDestination = "splash") {
+        composable("splash") { SplashScreen(navController) }
+
         composable(NavItem.Home.route) {
             HomeScreen(navigateToDetails = { gameId ->
                 navController.navigate("details/$gameId")

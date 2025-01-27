@@ -30,7 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -97,9 +96,9 @@ fun GameDetailContent(
 
     Box(
         modifier =
-        Modifier
-            .fillMaxSize()
-            .background(ScreenBackgroundColor),
+            Modifier
+                .fillMaxSize()
+                .background(ScreenBackgroundColor),
     ) {
         Column(Modifier.verticalScroll(scrollState)) {
             GameDetailHeader(gameDetails.backgroundImage, scrollState)
@@ -136,7 +135,7 @@ fun GameDetailContent(
             Text(
                 text = gameDetails.description ?: "",
                 style = AppTypography.bodyLarge,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
             )
         }
         GameToolbar(
