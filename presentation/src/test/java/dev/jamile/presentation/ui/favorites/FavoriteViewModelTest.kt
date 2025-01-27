@@ -21,7 +21,7 @@ import kotlin.random.Random
 
 @RunWith(MockitoJUnitRunner::class)
 @OptIn(ExperimentalCoroutinesApi::class)
-class FavoritesViewModelTest : BaseViewModelTest() {
+class FavoriteViewModelTest : BaseViewModelTest() {
     private val favoriteGamesRepository: FavoriteGamesRepository = mockk()
 
     private lateinit var viewModel: FavoritesViewModel

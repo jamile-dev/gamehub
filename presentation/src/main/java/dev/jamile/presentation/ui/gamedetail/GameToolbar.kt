@@ -1,4 +1,4 @@
-package dev.jamile.presentation.ui.game_detail
+package dev.jamile.presentation.ui.gamedetail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
