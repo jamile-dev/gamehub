@@ -82,7 +82,7 @@ fun GameListItem(
                     modifier = Modifier.padding(2.dp),
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                GenreChips(game.genres, modifier = Modifier.weight(1f))
+                GenreChips(game.genres)
 
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(
