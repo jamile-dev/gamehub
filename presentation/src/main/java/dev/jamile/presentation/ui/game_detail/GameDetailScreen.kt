@@ -36,6 +36,7 @@ fun GameDetailScreen(
 
     LaunchedEffect(gameId) {
         viewModel.fetchGameDetails(gameId)
+        viewModel.checkFavorite(gameId)
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -46,10 +47,13 @@ fun GameDetailScreen(
                 modifier = Modifier.fillMaxSize()
             ) { LoadingScreen() }
 
-            is UIState.Success -> GameDetailContent(
-                (uiState as UIState.Success<GameDetails>).data,
-                navController
-            )
+            is UIState.Success -> {
+                val data = (uiState as UIState.Success<GameDetails>).data
+                GameDetailContent(
+                    data,
+                    navController
+                )
+            }
 
             is UIState.Error -> ErrorScreen("", { })
         }
