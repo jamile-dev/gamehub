@@ -29,198 +29,243 @@ class GameRepositoryModuleImplTest {
 // --- getPopularGames ---
 
     @Test
-    fun `getPopularGames returns Success with games`() = runTest {
-        // Arrange
-        val gameDto = GameDto(
-            id = "1", name = "Game 1", genres = emptyList(), platforms = emptyList(),
-            imageUrl = "", rating = 4.0, metascore = 80, releaseDate = "2024-01-01",
-            description = "Description", tags = emptyList()
-        )
-        val gameDtos = listOf(gameDto)
-        val expectedGames = gameDtos.map { it.toDomainModel() }
-        coEvery { gameApi.getPopularGames(page = any()) } returns GameResponse(gameDtos)
+    fun `getPopularGames returns Success with games`() =
+        runTest {
+            // Arrange
+            val gameDto =
+                GameDto(
+                    id = "1",
+                    name = "Game 1",
+                    genres = emptyList(),
+                    platforms = emptyList(),
+                    imageUrl = "",
+                    rating = 4.0,
+                    metascore = 80,
+                    releaseDate = "2024-01-01",
+                    description = "Description",
+                    tags = emptyList(),
+                )
+            val gameDtos = listOf(gameDto)
+            val expectedGames = gameDtos.map { it.toDomainModel() }
+            coEvery { gameApi.getPopularGames(page = any()) } returns GameResponse(gameDtos)
 
-        // Act
-        val result = repository.getPopularGames(1)
+            // Act
+            val result = repository.getPopularGames(1)
 
-        // Assert
-        assertEquals(Success(expectedGames), result)
-    }
-
-    @Test
-    fun `getPopularGames returns Success with empty list when no games`() = runTest {
-        // Arrange
-        coEvery { gameApi.getPopularGames(page = any()) } returns GameResponse(emptyList())
-
-        // Act
-        val result = repository.getPopularGames(1)
-
-        // Assert
-        assertEquals(Success(emptyList<Game>()), result)
-    }
+            // Assert
+            assertEquals(Success(expectedGames), result)
+        }
 
     @Test
-    fun `getPopularGames returns Error when exception is thrown`() = runTest {
-        // Arrange
-        val exception = IOException("Network Error")
-        coEvery { gameApi.getPopularGames(page = any()) } throws exception
+    fun `getPopularGames returns Success with empty list when no games`() =
+        runTest {
+            // Arrange
+            coEvery { gameApi.getPopularGames(page = any()) } returns GameResponse(emptyList())
 
-        // Act
-        val result = repository.getPopularGames(1)
+            // Act
+            val result = repository.getPopularGames(1)
 
-        // Assert
-        assertIs<Error>(result)
-        assertEquals(exception, result.exception)
-    }
+            // Assert
+            assertEquals(Success(emptyList<Game>()), result)
+        }
 
     @Test
-    fun `getPopularGames filters excluded tags`() = runTest {
-        val gameDto1 = GameDto(
-            id = "1", name = "Game 1", genres = emptyList(), platforms = emptyList(),
-            imageUrl = "", rating = 4.0, metascore = 80, releaseDate = "2024-01-01",
-            description = "Description", tags = listOf(TagDto("nsfw"))
-        )
-        val gameDto2 = GameDto(
-            id = "2", name = "Game 2", genres = emptyList(), platforms = emptyList(),
-            imageUrl = "", rating = 4.0, metascore = 80, releaseDate = "2024-01-01",
-            description = "Description", tags = emptyList()
-        )
-        val gameDtos = listOf(gameDto1, gameDto2)
-        val expectedGames = listOf(gameDto2).map { it.toDomainModel() }
+    fun `getPopularGames returns Error when exception is thrown`() =
+        runTest {
+            // Arrange
+            val exception = IOException("Network Error")
+            coEvery { gameApi.getPopularGames(page = any()) } throws exception
 
-        coEvery { gameApi.getPopularGames(page = any()) } returns GameResponse(gameDtos)
+            // Act
+            val result = repository.getPopularGames(1)
 
-        val result = repository.getPopularGames(1)
+            // Assert
+            assertIs<Error>(result)
+            assertEquals(exception, result.exception)
+        }
 
-        assertEquals(Success(expectedGames), result)
-    }
+    @Test
+    fun `getPopularGames filters excluded tags`() =
+        runTest {
+            val gameDto1 =
+                GameDto(
+                    id = "1",
+                    name = "Game 1",
+                    genres = emptyList(),
+                    platforms = emptyList(),
+                    imageUrl = "",
+                    rating = 4.0,
+                    metascore = 80,
+                    releaseDate = "2024-01-01",
+                    description = "Description",
+                    tags = listOf(TagDto("nsfw")),
+                )
+            val gameDto2 =
+                GameDto(
+                    id = "2",
+                    name = "Game 2",
+                    genres = emptyList(),
+                    platforms = emptyList(),
+                    imageUrl = "",
+                    rating = 4.0,
+                    metascore = 80,
+                    releaseDate = "2024-01-01",
+                    description = "Description",
+                    tags = emptyList(),
+                )
+            val gameDtos = listOf(gameDto1, gameDto2)
+            val expectedGames = listOf(gameDto2).map { it.toDomainModel() }
+
+            coEvery { gameApi.getPopularGames(page = any()) } returns GameResponse(gameDtos)
+
+            val result = repository.getPopularGames(1)
+
+            assertEquals(Success(expectedGames), result)
+        }
 
 // --- getRecentGames ---
 
     @Test
-    fun `getRecentGames returns Success with games`() = runTest {
-        // Arrange
-        val gameDto = GameDto(
-            id = "1", name = "Game 1", genres = emptyList(), platforms = emptyList(),
-            imageUrl = "", rating = 4.0, metascore = 80, releaseDate = "2024-01-01",
-            description = "Description", tags = emptyList()
-        )
-        val gameDtos = listOf(gameDto)
-        val expectedGames = gameDtos.map { it.toDomainModel() }
-        coEvery { gameApi.getMostRecentGames(any(), any(), any(), any()) } returns GameResponse(
-            gameDtos
-        )
+    fun `getRecentGames returns Success with games`() =
+        runTest {
+            // Arrange
+            val gameDto =
+                GameDto(
+                    id = "1",
+                    name = "Game 1",
+                    genres = emptyList(),
+                    platforms = emptyList(),
+                    imageUrl = "",
+                    rating = 4.0,
+                    metascore = 80,
+                    releaseDate = "2024-01-01",
+                    description = "Description",
+                    tags = emptyList(),
+                )
+            val gameDtos = listOf(gameDto)
+            val expectedGames = gameDtos.map { it.toDomainModel() }
+            coEvery { gameApi.getMostRecentGames(any(), any(), any(), any()) } returns
+                GameResponse(
+                    gameDtos,
+                )
 
-        // Act
-        val result = repository.getRecentGames(1)
+            // Act
+            val result = repository.getRecentGames(1)
 
-        // Assert
-        assertEquals(Success(expectedGames), result)
-    }
-
-    @Test
-    fun `getRecentGames returns Success with empty list when no games`() = runTest {
-        // Arrange
-        coEvery { gameApi.getMostRecentGames(any(), any(), any(), any()) } returns GameResponse(
-            emptyList()
-        )
-
-        // Act
-        val result = repository.getRecentGames(1)
-
-        // Assert
-        assertEquals(Success(emptyList<Game>()), result)
-    }
+            // Assert
+            assertEquals(Success(expectedGames), result)
+        }
 
     @Test
-    fun `getRecentGames returns Error when exception is thrown`() = runTest {
-        // Arrange
-        val exception = IOException("Network Error")
-        coEvery { gameApi.getMostRecentGames(any(), any(), any(), any()) } throws exception
+    fun `getRecentGames returns Success with empty list when no games`() =
+        runTest {
+            // Arrange
+            coEvery { gameApi.getMostRecentGames(any(), any(), any(), any()) } returns
+                GameResponse(
+                    emptyList(),
+                )
 
-        // Act
-        val result = repository.getRecentGames(1)
+            // Act
+            val result = repository.getRecentGames(1)
 
-        // Assert
-        assertIs<Error>(result)
-        assertEquals(exception, result.exception)
-    }
+            // Assert
+            assertEquals(Success(emptyList<Game>()), result)
+        }
 
+    @Test
+    fun `getRecentGames returns Error when exception is thrown`() =
+        runTest {
+            // Arrange
+            val exception = IOException("Network Error")
+            coEvery { gameApi.getMostRecentGames(any(), any(), any(), any()) } throws exception
+
+            // Act
+            val result = repository.getRecentGames(1)
+
+            // Assert
+            assertIs<Error>(result)
+            assertEquals(exception, result.exception)
+        }
 
 // --- searchGamesPaged ---
 
     @Test
-    fun `searchGamesPaged returns Success with games`() = runTest {
-        // Arrange
-        val gameDtos = listOf(generateFakeGame().toGameDto())
-        val expectedGames = gameDtos.map { it.toDomainModel() }
-        coEvery { gameApi.searchGames(any(), any(), any()) } returns GameResponse(gameDtos)
+    fun `searchGamesPaged returns Success with games`() =
+        runTest {
+            // Arrange
+            val gameDtos = listOf(generateFakeGame().toGameDto())
+            val expectedGames = gameDtos.map { it.toDomainModel() }
+            coEvery { gameApi.searchGames(any(), any(), any()) } returns GameResponse(gameDtos)
 
-        // Act
-        val result = repository.searchGamesPaged("query", 1)
+            // Act
+            val result = repository.searchGamesPaged("query", 1)
 
-        // Assert
-        assertEquals(Success(expectedGames), result)
-    }
-
-    @Test
-    fun `searchGamesPaged returns Success with empty list when no games found`() = runTest {
-        // Arrange
-        coEvery { gameApi.searchGames(any(), any(), any()) } returns GameResponse(emptyList())
-
-        // Act
-        val result = repository.searchGamesPaged("query", 1)
-
-        // Assert
-        assertEquals(Success(emptyList<Game>()), result)
-    }
+            // Assert
+            assertEquals(Success(expectedGames), result)
+        }
 
     @Test
-    fun `searchGamesPaged returns Error when exception is thrown`() = runTest {
-        // Arrange
-        val exception = IOException("Network Error")
-        coEvery { gameApi.searchGames(any(), any(), any()) } throws exception
+    fun `searchGamesPaged returns Success with empty list when no games found`() =
+        runTest {
+            // Arrange
+            coEvery { gameApi.searchGames(any(), any(), any()) } returns GameResponse(emptyList())
 
-        // Act
-        val result = repository.searchGamesPaged("query", 1)
+            // Act
+            val result = repository.searchGamesPaged("query", 1)
 
-        // Assert
-        assertIs<Error>(result)
-        assertEquals(exception, result.exception)
-    }
+            // Assert
+            assertEquals(Success(emptyList<Game>()), result)
+        }
+
+    @Test
+    fun `searchGamesPaged returns Error when exception is thrown`() =
+        runTest {
+            // Arrange
+            val exception = IOException("Network Error")
+            coEvery { gameApi.searchGames(any(), any(), any()) } throws exception
+
+            // Act
+            val result = repository.searchGamesPaged("query", 1)
+
+            // Assert
+            assertIs<Error>(result)
+            assertEquals(exception, result.exception)
+        }
 
 // --- getGameDetails ---
 
     @Test
-    fun `getGameDetails returns Success with game details`() = runTest {
-        // Arrange
-        val gameDetails = generateFakeGameDetails()
-        coEvery { gameApi.getGameDetails(any()) } returns gameDetails.toGameDetailsDto()
+    fun `getGameDetails returns Success with game details`() =
+        runTest {
+            // Arrange
+            val gameDetails = generateFakeGameDetails()
+            coEvery { gameApi.getGameDetails(any()) } returns gameDetails.toGameDetailsDto()
 
-        // Act
-        val result = repository.getGameDetails("1")
+            // Act
+            val result = repository.getGameDetails("1")
 
-        // Assert
-        assertEquals(Success(gameDetails), result)
-    }
+            // Assert
+            assertEquals(Success(gameDetails), result)
+        }
 
     @Test
-    fun `getGameDetails returns Error when exception is thrown`() = runTest {
-        // Arrange
-        val exception = IOException("Network Error")
-        coEvery { gameApi.getGameDetails(any()) } throws exception
+    fun `getGameDetails returns Error when exception is thrown`() =
+        runTest {
+            // Arrange
+            val exception = IOException("Network Error")
+            coEvery { gameApi.getGameDetails(any()) } throws exception
 
-        // Act
-        val result = repository.getGameDetails("1")
+            // Act
+            val result = repository.getGameDetails("1")
 
-        // Assert
-        assertIs<Error>(result)
-        assertEquals(exception, result.exception)
-    }
+            // Assert
+            assertIs<Error>(result)
+            assertEquals(exception, result.exception)
+        }
 }
 
-fun generateFakeGameDetails(): GameDetails {
-    return GameDetails(
+fun generateFakeGameDetails(): GameDetails =
+    GameDetails(
         id = Random.nextInt(),
         name = "Fake Game Details",
         description = "A fake game description.",
@@ -229,12 +274,11 @@ fun generateFakeGameDetails(): GameDetails {
         backgroundImage = "https://example.com/image.jpg",
         rating = Random.nextDouble(0.0, 5.0),
         platforms = listOf("PC", "PS5"),
-        genres = listOf("Action", "Adventure")
+        genres = listOf("Action", "Adventure"),
     )
-}
 
-fun Game.toGameDto(): GameDto {
-    return GameDto(
+fun Game.toGameDto(): GameDto =
+    GameDto(
         id = id,
         name = name,
         genres = genres?.map { GenreDto(it) } ?: emptyList(),
@@ -244,12 +288,11 @@ fun Game.toGameDto(): GameDto {
         metascore = metaScore,
         releaseDate = releaseDate,
         description = description,
-        tags = tags?.map { TagDto(it) } ?: emptyList()
+        tags = tags?.map { TagDto(it) } ?: emptyList(),
     )
-}
 
-fun GameDetails.toGameDetailsDto(): GameDetailsDto {
-    return GameDetailsDto(
+fun GameDetails.toGameDetailsDto(): GameDetailsDto =
+    GameDetailsDto(
         id = id,
         slug = name,
         name = name,
@@ -277,6 +320,5 @@ fun GameDetails.toGameDetailsDto(): GameDetailsDto {
         ratingsCount = 0,
         alternativeNames = null,
         platforms = platforms?.map { PlatformDto(PlatformDetailDto(it)) } ?: emptyList(),
-        genres = genres?.map { GenreDto(it) } ?: emptyList()
+        genres = genres?.map { GenreDto(it) } ?: emptyList(),
     )
-}

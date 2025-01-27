@@ -13,12 +13,14 @@ fun generateFakeGame(
     imageUrl: String = "https://via.placeholder.com/150",
     rating: Double = Random.nextDouble(1.0, 5.0),
     metaScore: Int = Random.nextInt(50, 100),
-    releaseDate: String = LocalDate.now()
-        .format(DateTimeFormatter.ISO_DATE),
+    releaseDate: String =
+        LocalDate
+            .now()
+            .format(DateTimeFormatter.ISO_DATE),
     description: String? = "This is a fake game description.",
-    tags: List<String>? = listOf("Singleplayer", "Multiplayer", "Open World")
-): Game {
-    return Game(
+    tags: List<String>? = listOf("Singleplayer", "Multiplayer", "Open World"),
+): Game =
+    Game(
         id = id,
         name = name,
         genres = genres,
@@ -28,6 +30,5 @@ fun generateFakeGame(
         metaScore = metaScore,
         releaseDate = releaseDate,
         description = description,
-        tags = tags
+        tags = tags,
     )
-}

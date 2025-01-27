@@ -2,6 +2,7 @@ package dev.jamile.data.di.network
 
 import okhttp3.Interceptor
 import okhttp3.Response
+
 /**
  * ESRBRatingInterceptor is an OkHttp Interceptor that adds a query parameter to exclude
  * games with mature content (NSFW) from the API requests.
@@ -23,9 +24,11 @@ class ESRBRatingInterceptor : Interceptor {
         newUrlBuilder.addQueryParameter("exclude_nsfw", "true")
 
         val newUrl = newUrlBuilder.build()
-        val newRequest = originalRequest.newBuilder()
-            .url(newUrl)
-            .build()
+        val newRequest =
+            originalRequest
+                .newBuilder()
+                .url(newUrl)
+                .build()
 
         return chain.proceed(newRequest)
     }

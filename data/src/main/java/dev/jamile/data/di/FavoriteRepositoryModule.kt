@@ -13,7 +13,5 @@ import javax.inject.Singleton
 abstract class FavoriteRepositoryModule {
     @Binds
     @Singleton
-    abstract fun bindFavoriteGamesRepository(
-        favoriteGamesRepositoryImpl: FavoriteGamesRepositoryImpl
-    ): FavoriteGamesRepository
+    abstract fun bindFavoriteGamesRepository(favoriteGamesRepositoryImpl: FavoriteGamesRepositoryImpl): FavoriteGamesRepository
 }

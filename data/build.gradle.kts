@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kt.lint)
 }
 
 android {
@@ -23,7 +24,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -51,41 +52,56 @@ android {
     sourceSets.getByName("test") {
         kotlin.srcDir("build/generated/ksp/test/kotlin")
     }
-}
 
-dependencies {
-    implementation(project(":domain"))
-    implementation(project(":testsupport"))
+    ktlint {
+        android.set(true)
+        outputToConsole.set(true)
+        coloredOutput.set(true)
+        ignoreFailures.set(false)
+        reporters {
+            reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN)
+            reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.CHECKSTYLE)
+        }
+        filter {
+            exclude("**/generated/**")
+            include("**/kotlin/**")
+        }
+    }
 
-    implementation(libs.androidx.appcompat)
-    implementation(libs.hilt.android)
-    implementation(libs.retrofit)
-    implementation(libs.okhttp.logging.interceptor)
-    implementation(libs.retrofit.converter.gson)
-    implementation(libs.paging)
-    implementation(libs.pagingCompose)
-    implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.monitor)
-    implementation(libs.androidx.junit.ktx)
+    dependencies {
+        implementation(project(":domain"))
+        implementation(project(":testsupport"))
 
-    ksp(libs.androidx.room.compiler)
-    ksp(libs.hilt.compiler)
+        implementation(libs.androidx.appcompat)
+        implementation(libs.hilt.android)
+        implementation(libs.retrofit)
+        implementation(libs.okhttp.logging.interceptor)
+        implementation(libs.retrofit.converter.gson)
+        implementation(libs.paging)
+        implementation(libs.pagingCompose)
+        implementation(libs.androidx.room.ktx)
+        implementation(libs.androidx.room.runtime)
+        implementation(libs.androidx.monitor)
+        implementation(libs.androidx.junit.ktx)
 
-    androidTestImplementation(kotlin("test"))
+        ksp(libs.androidx.room.compiler)
+        ksp(libs.hilt.compiler)
 
-    testImplementation(kotlin("test"))
-    testImplementation(libs.junit)
-    testImplementation(libs.mockk)
-    testImplementation(libs.kotlin.coroutines.test)
-    testImplementation(libs.androidx.core.testing)
-    testImplementation(libs.androidx.room.testing)
+        androidTestImplementation(kotlin("test"))
 
-    androidTestImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.runner)
-    androidTestImplementation(libs.androidx.rules)
-    androidTestImplementation(libs.androidx.room.testing)
-    androidTestImplementation(libs.androidx.core.testing)
-    androidTestImplementation(libs.kotlin.coroutines.test)
-    androidTestImplementation(libs.mockk)
+        testImplementation(kotlin("test"))
+        testImplementation(libs.junit)
+        testImplementation(libs.mockk)
+        testImplementation(libs.kotlin.coroutines.test)
+        testImplementation(libs.androidx.core.testing)
+        testImplementation(libs.androidx.room.testing)
+
+        androidTestImplementation(libs.junit)
+        androidTestImplementation(libs.androidx.runner)
+        androidTestImplementation(libs.androidx.rules)
+        androidTestImplementation(libs.androidx.room.testing)
+        androidTestImplementation(libs.androidx.core.testing)
+        androidTestImplementation(libs.kotlin.coroutines.test)
+        androidTestImplementation(libs.mockk)
+    }
 }

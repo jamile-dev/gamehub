@@ -6,11 +6,10 @@ import dev.jamile.domain.models.Game
 import dev.jamile.domain.models.Result
 
 class GamesPagingSource(
-    private val loadGames: suspend (page: Int) -> Result<List<Game>>
+    private val loadGames: suspend (page: Int) -> Result<List<Game>>,
 ) : PagingSource<Int, Game>() {
-
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Game> {
-        return try {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Game> =
+        try {
             val pageNumber = params.key ?: 1
             when (val result = loadGames(pageNumber)) {
                 is Result.Success -> {
@@ -18,7 +17,7 @@ class GamesPagingSource(
                     LoadResult.Page(
                         data = games,
                         prevKey = if (pageNumber == 1) null else pageNumber - 1,
-                        nextKey = if (games.isEmpty()) null else pageNumber + 1
+                        nextKey = if (games.isEmpty()) null else pageNumber + 1,
                     )
                 }
 
@@ -29,12 +28,10 @@ class GamesPagingSource(
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
-    }
 
-    override fun getRefreshKey(state: PagingState<Int, Game>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
+    override fun getRefreshKey(state: PagingState<Int, Game>): Int? =
+        state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
-    }
 }
