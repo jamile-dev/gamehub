@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.systemBarsPadding
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigation
 //noinspection UsingMaterialAndMaterial3Libraries
@@ -64,13 +63,13 @@ fun BottomNavigationBar(navController: NavHostController) {
                     Icon(
                         item.icon,
                         contentDescription = item.title,
-                        tint = if (isSelected) Color.DarkGray else Color.White
+                        tint = if (isSelected) Color.White else Color.LightGray
                     )
                 },
                 label = {
                     Text(
                         item.title,
-                        color = if (isSelected) Color.DarkGray else Color.White
+                        color = if (isSelected) Color.White else Color.LightGray
                     )
                 },
                 selected = isSelected,

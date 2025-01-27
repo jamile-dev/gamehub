@@ -85,12 +85,12 @@ fun GameCarouselItem(game: Game, onClick: () -> Unit, modifier: Modifier = Modif
 
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 4.dp, vertical = 4.dp)
+                    .padding(horizontal = 2.dp, vertical = 2.dp)
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                GenreChips(game.genres, modifier = Modifier.weight(1f))
+                GenreChips(game.genres)
                 RatingIndicator(rating = game.rating, modifier = Modifier.size(32.dp))
             }
         }

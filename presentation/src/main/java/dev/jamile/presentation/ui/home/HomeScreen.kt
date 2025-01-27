@@ -1,6 +1,7 @@
 package dev.jamile.presentation.ui.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,10 +19,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,9 +46,10 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToDetails: (String) -> Unit
 ) {
+    val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) { viewModel.loadGames() }
-    val uiState by viewModel.uiState.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -79,8 +81,12 @@ fun HomeScreen(
                     }
 
                     is UIState.Error -> {
-                        val message = (uiState as UIState.Error)
-                        ErrorScreen(message = "Error", onRetry = { /* Retry logic */ })
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            ErrorScreen(message = "Error", onRetry = { viewModel.loadGames() })
+                        }
                     }
 
                     is UIState.Success -> {
@@ -96,8 +102,9 @@ fun HomeScreen(
                             Text(
                                 stringResource(R.string.popular_games),
                                 modifier = Modifier.padding(start = 8.dp),
-                                fontSize = 18.sp,
+                                fontSize = 20.sp,
                                 color = Color.White,
+                                fontWeight = FontWeight.Bold,
                                 fontFamily = Roboto
                             )
                             LazyRow {
@@ -147,8 +154,9 @@ fun HomeScreen(
                             Text(
                                 stringResource(R.string.best_of_year),
                                 modifier = Modifier.padding(start = 8.dp),
-                                fontSize = 18.sp,
+                                fontSize = 20.sp,
                                 color = Color.White,
+                                fontWeight = FontWeight.Bold,
                                 fontFamily = Roboto
                             )
                             LazyColumn {

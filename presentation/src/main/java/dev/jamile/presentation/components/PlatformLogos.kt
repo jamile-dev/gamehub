@@ -2,8 +2,10 @@ package dev.jamile.presentation.components
 
 import android.util.Log
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -35,9 +37,9 @@ fun PlatformLogos(platforms: List<String>, modifier: Modifier = Modifier) {
                     tint = Color.White,
                     contentDescription = platform,
                     modifier = Modifier
-                        .size(32.dp)
-                        .padding(end = 8.dp)
+                        .size(24.dp)
                 )
+                Spacer(Modifier.width(2.dp))
             }
         }
     }

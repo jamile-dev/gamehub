@@ -29,7 +29,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -40,6 +43,7 @@ import dev.jamile.presentation.components.RatingIndicator
 import dev.jamile.presentation.ui.theme.AppTypography
 import dev.jamile.presentation.ui.theme.Roboto
 import dev.jamile.presentation.ui.theme.ScreenBackgroundColor
+import dev.jamile.presentation.utils.formatDate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -102,7 +106,7 @@ fun GameDetailContent(
                 text = gameDetails.name,
                 fontFamily = Roboto,
                 style = AppTypography.headlineLarge,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(12.dp)
             )
             PlatformLogos(
                 platforms = gameDetails.platforms ?: emptyList(),
@@ -122,15 +126,18 @@ fun GameDetailContent(
                 Spacer(modifier = Modifier.height(16.dp))
             }
             Text(
-                text = "Release Date: ${gameDetails.released}",
+                text = "Release Date: ${gameDetails.released?.formatDate()}",
                 style = AppTypography.labelLarge,
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(8.dp)
             )
             Text(
                 text = gameDetails.description ?: "",
                 textAlign = TextAlign.Justify,
-                style = AppTypography.titleLarge,
-                modifier = Modifier.padding(8.dp)
+                style = AppTypography.bodyLarge.copy(
+                    letterSpacing = TextUnit(value = 1.5f, type = TextUnitType.Sp)
+                ),
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
         }

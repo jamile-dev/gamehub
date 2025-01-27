@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.jamile.presentation.R
+import dev.jamile.presentation.ui.theme.AppTypography
 
 /**
  * A composable that displays an error message with an image and a retry button.
@@ -42,7 +43,7 @@ fun ErrorScreen(message: String?, onRetry: () -> Unit, modifier: Modifier = Modi
             modifier = Modifier.size(128.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = message ?: stringResource(R.string.unkown_error), style = MaterialTheme.typography.bodyLarge)
+        Text(text = message ?: stringResource(R.string.unkown_error), style = AppTypography.bodyLarge)
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = onRetry) {
             Text(text = "Retry")
