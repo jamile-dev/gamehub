@@ -22,13 +22,10 @@ Android application designed to display and search Games. The app is built using
 </p>
 
 ## Preview
-
-<p align="center">
-<img src="previews/preview1.gif" width="270"/> <img src="previews/preview2.gif" width="270"/>
-</p>
+[demo_app.webm](https://github.com/user-attachments/assets/66617a5a-e010-4db5-9002-8d614d4a3971)
 
 ## Download
-
+Get your apk [here](https://github.com/jamile-dev/gamehub/releases/tag/v1)!
 
 ## Setting up for Development and Testing
 
