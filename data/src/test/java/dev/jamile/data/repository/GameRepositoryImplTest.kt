@@ -83,3 +83,28 @@ class FavoriteGamesRepositoryImplTest {
         assertFalse(result)
     }
 }
+// TODO: improve or move this fake data declaration
+val gameDetail1 = GameDetails(
+    id = 1,
+    name = "Fake Game Details",
+    description = "A fake game description.",
+    metacritic = Random.nextInt(0, 100),
+    released = "2024-07-20",
+    backgroundImage = "https://example.com/image.jpg",
+    rating = Random.nextDouble(0.0, 5.0),
+    platforms = listOf("PC", "PS5"),
+    genres = listOf("Action", "Adventure")
+)
+
+
+val gameDetail2 = GameDetails(
+    id = 2,
+    name = "Fake Game Details",
+    description = "A fake game description.",
+    metacritic = Random.nextInt(0, 100),
+    released = "2024-07-20",
+    backgroundImage = "https://example.com/image.jpg",
+    rating = Random.nextDouble(0.0, 5.0),
+    platforms = listOf("PC", "PS5"),
+    genres = listOf("Action", "Adventure")
+)
