@@ -12,9 +12,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import dev.jamile.presentation.ui.theme.AppTypography
 import java.text.DecimalFormat
 
 /**
@@ -24,35 +24,42 @@ import java.text.DecimalFormat
  * @param modifier Optional [Modifier] to apply to [RatingIndicator]
  */
 @Composable
-fun RatingIndicator(rating: Double, modifier: Modifier = Modifier) {
-    val color = when {
-        rating >= 4F -> Color(0xFF4CAF50)
-        rating >= 3F -> Color(0xFFFFEB3B)
-        rating >= 2F -> Color(0xFFFF9800)
-        else -> Color(0xFFF44336)
-    }
+fun RatingIndicator(
+    rating: Double,
+    modifier: Modifier = Modifier,
+) {
+    val color =
+        when {
+            rating >= 4F -> Color(0xFF4CAF50)
+            rating >= 3F -> Color(0xFFFFEB3B)
+            rating >= 2F -> Color(0xFFFF9800)
+            else -> Color(0xFFF44336)
+        }
 
     val backgroundColor = color.copy(alpha = 0.2f)
-    val formattedRating = DecimalFormat("#.0").format(rating)
+    val formattedRating = DecimalFormat("0.0").format(rating)
 
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier
-            .background(backgroundColor, CircleShape)
-            .border(1.dp, color, CircleShape)
-            .size(30.dp)
-            .padding(2.dp)
+        modifier =
+            modifier
+                .background(backgroundColor, CircleShape)
+                .border(1.dp, color, CircleShape)
+                .size(30.dp)
+                .padding(2.dp),
     ) {
         Text(
             text = formattedRating,
             color = Color.White,
-            style = TextStyle(
-                fontSize = 10.sp,
-                shadow = Shadow(
-                    color = Color.Black,
-                    blurRadius = 4f
-                )
-            )
+            style =
+                AppTypography.labelMedium.copy(
+                    fontWeight = FontWeight.Bold,
+                    shadow =
+                        Shadow(
+                            color = Color.Black,
+                            blurRadius = 4f,
+                        ),
+                ),
         )
     }
 }

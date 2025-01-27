@@ -13,10 +13,10 @@ data class GameDetails(
     val backgroundImage: String?,
     val rating: Double?,
     val platforms: List<String>?,
-    val genres: List<String>?
+    val genres: List<String>?,
 ) {
-    fun toGame(): Game {
-        return Game(
+    fun toGame(): Game =
+        Game(
             id = id.toString(),
             name = name,
             genres = genres,
@@ -26,7 +26,6 @@ data class GameDetails(
             metaScore = metacritic ?: 0,
             releaseDate = released ?: "",
             description = description,
-            tags = emptyList()
+            tags = emptyList(),
         )
-    }
 }

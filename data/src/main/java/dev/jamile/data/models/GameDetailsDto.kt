@@ -31,19 +31,18 @@ data class GameDetailsDto(
     @SerializedName("ratings_count") val ratingsCount: Int,
     @SerializedName("alternative_names") val alternativeNames: List<String>?,
     @SerializedName("platforms") val platforms: List<PlatformDto>?,
-    @SerializedName("genres") val genres: List<GenreDto>?
+    @SerializedName("genres") val genres: List<GenreDto>?,
 ) {
-    fun toDomainModel(): GameDetails {
-        return GameDetails(
+    fun toDomainModel(): GameDetails =
+        GameDetails(
             id = id,
             name = name,
             description = description,
             metacritic = metacritic,
             released = released,
             backgroundImage = backgroundImage,
-            rating = rating ?: 0.0 ,
+            rating = rating ?: 0.0,
             platforms = platforms?.map { it.platform.name } ?: emptyList(),
-            genres = genres?.map { it.name } ?: emptyList()
+            genres = genres?.map { it.name } ?: emptyList(),
         )
-    }
 }

@@ -1,12 +1,14 @@
 package dev.jamile.presentation.ui.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,10 +20,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,11 +45,12 @@ import dev.jamile.presentation.ui.theme.ScreenBackgroundColor
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    navigateToDetails: (String) -> Unit
+    navigateToDetails: (String) -> Unit,
 ) {
+    val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) { viewModel.loadGames() }
-    val uiState by viewModel.uiState.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -60,18 +63,20 @@ fun HomeScreen(
                         fontWeight = FontWeight.ExtraBold,
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = ScreenBackgroundColor
-                ),
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = ScreenBackgroundColor,
+                    ),
                 modifier = Modifier.padding(vertical = 4.dp),
             )
         },
         content = { paddingValues ->
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(ScreenBackgroundColor)
-                    .padding(8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(ScreenBackgroundColor)
+                        .padding(8.dp),
             ) {
                 when (uiState) {
                     is UIState.Loading -> {
@@ -79,8 +84,12 @@ fun HomeScreen(
                     }
 
                     is UIState.Error -> {
-                        val message = (uiState as UIState.Error)
-                        ErrorScreen(message = "Error", onRetry = { /* Retry logic */ })
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                        ) {
+                            ErrorScreen(message = "Error", onRetry = { viewModel.loadGames() })
+                        }
                     }
 
                     is UIState.Success -> {
@@ -89,23 +98,26 @@ fun HomeScreen(
                         val recentGames = gamesData.recentGames.collectAsLazyPagingItems()
 
                         Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(paddingValues)
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .padding(paddingValues),
                         ) {
                             Text(
                                 stringResource(R.string.popular_games),
                                 modifier = Modifier.padding(start = 8.dp),
-                                fontSize = 18.sp,
+                                fontSize = 20.sp,
                                 color = Color.White,
-                                fontFamily = Roboto
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = Roboto,
                             )
                             LazyRow {
                                 items(popularGames.itemCount) { index ->
                                     popularGames[index]?.let {
                                         GameCarouselItem(
                                             game = it,
-                                            onClick = { navigateToDetails(it.id) })
+                                            onClick = { navigateToDetails(it.id) },
+                                        )
                                     }
                                 }
                                 when (popularGames.loadState.refresh) {
@@ -113,12 +125,20 @@ fun HomeScreen(
                                     is LoadState.Error -> {
                                         val e = popularGames.loadState.refresh as LoadState.Error
                                         item {
-                                            ErrorScreen(
-                                                message = stringResource(
-                                                    R.string.error,
-                                                    e.error.localizedMessage ?: ""
-                                                ),
-                                                onRetry = { popularGames.retry() })
+                                            Column(
+                                                modifier = Modifier.width(400.dp).padding(12.dp),
+                                                verticalArrangement = Arrangement.Center,
+                                                horizontalAlignment = Alignment.CenterHorizontally,
+                                            ) {
+                                                ErrorScreen(
+                                                    message =
+                                                        stringResource(
+                                                            R.string.error,
+                                                            e.error.localizedMessage ?: "",
+                                                        ),
+                                                    onRetry = { viewModel.loadGames() },
+                                                )
+                                            }
                                         }
                                     }
 
@@ -129,12 +149,20 @@ fun HomeScreen(
                                     is LoadState.Error -> {
                                         val e = popularGames.loadState.append as LoadState.Error
                                         item {
-                                            ErrorScreen(
-                                                message = stringResource(
-                                                    R.string.error,
-                                                    e.error.localizedMessage ?: ""
-                                                ),
-                                                onRetry = { popularGames.retry() })
+                                            Column(
+                                                modifier = Modifier.width(400.dp).padding(12.dp),
+                                                verticalArrangement = Arrangement.Center,
+                                                horizontalAlignment = Alignment.CenterHorizontally,
+                                            ) {
+                                                ErrorScreen(
+                                                    message =
+                                                        stringResource(
+                                                            R.string.error,
+                                                            e.error.localizedMessage ?: "",
+                                                        ),
+                                                    onRetry = { viewModel.loadGames() },
+                                                )
+                                            }
                                         }
                                     }
 
@@ -147,16 +175,18 @@ fun HomeScreen(
                             Text(
                                 stringResource(R.string.best_of_year),
                                 modifier = Modifier.padding(start = 8.dp),
-                                fontSize = 18.sp,
+                                fontSize = 20.sp,
                                 color = Color.White,
-                                fontFamily = Roboto
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = Roboto,
                             )
                             LazyColumn {
                                 items(recentGames.itemCount) { index ->
                                     recentGames[index]?.let {
                                         GameListItem(
                                             game = it,
-                                            onClick = { navigateToDetails(it.id) })
+                                            onClick = { navigateToDetails(it.id) },
+                                        )
                                     }
                                 }
                                 when (recentGames.loadState.refresh) {
@@ -164,12 +194,20 @@ fun HomeScreen(
                                     is LoadState.Error -> {
                                         val e = recentGames.loadState.refresh as LoadState.Error
                                         item {
-                                            ErrorScreen(
-                                                message = stringResource(
-                                                    R.string.error,
-                                                    e.error.localizedMessage ?: ""
-                                                ),
-                                                onRetry = { recentGames.retry() })
+                                            Column(
+                                                modifier = Modifier.width(400.dp).padding(12.dp),
+                                                verticalArrangement = Arrangement.Center,
+                                                horizontalAlignment = Alignment.CenterHorizontally,
+                                            ) {
+                                                ErrorScreen(
+                                                    message =
+                                                        stringResource(
+                                                            R.string.error,
+                                                            e.error.localizedMessage ?: "",
+                                                        ),
+                                                    onRetry = { viewModel.loadGames() },
+                                                )
+                                            }
                                         }
                                     }
 
@@ -180,15 +218,22 @@ fun HomeScreen(
                                     is LoadState.Error -> {
                                         val e = recentGames.loadState.append as LoadState.Error
                                         item {
-                                            ErrorScreen(
-                                                message = stringResource(
-                                                    R.string.error,
-                                                    e.error.localizedMessage ?: ""
-                                                ),
-                                                onRetry = { recentGames.retry() })
+                                            Column(
+                                                modifier = Modifier.width(400.dp).padding(12.dp),
+                                                verticalArrangement = Arrangement.Center,
+                                                horizontalAlignment = Alignment.CenterHorizontally,
+                                            ) {
+                                                ErrorScreen(
+                                                    message =
+                                                        stringResource(
+                                                            R.string.error,
+                                                            e.error.localizedMessage ?: "",
+                                                        ),
+                                                    onRetry = { viewModel.loadGames() },
+                                                )
+                                            }
                                         }
                                     }
-
                                     else -> Unit
                                 }
                             }
@@ -196,6 +241,6 @@ fun HomeScreen(
                     }
                 }
             }
-        }
+        },
     )
 }

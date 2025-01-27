@@ -13,10 +13,10 @@ data class GameDto(
     @SerializedName("metacritic") val metascore: Int?,
     @SerializedName("released") val releaseDate: String?,
     @SerializedName("description_raw") val description: String?,
-    @SerializedName("tags") val tags: List<TagDto>?
+    @SerializedName("tags") val tags: List<TagDto>?,
 ) {
-    fun toDomainModel(): Game {
-        return Game(
+    fun toDomainModel(): Game =
+        Game(
             id = id ?: "",
             name = name ?: "Unknown",
             genres = genres?.map { it.name } ?: emptyList(),
@@ -26,23 +26,22 @@ data class GameDto(
             metaScore = metascore ?: 0,
             releaseDate = releaseDate ?: "Unknown",
             description = description ?: "",
-            tags = tags?.map { it.name } ?: emptyList()
+            tags = tags?.map { it.name } ?: emptyList(),
         )
-    }
 }
 
 data class GenreDto(
-    @SerializedName("name") val name: String
+    @SerializedName("name") val name: String,
 )
 
 data class PlatformDto(
-    @SerializedName("platform") val platform: PlatformDetailDto
+    @SerializedName("platform") val platform: PlatformDetailDto,
 )
 
 data class PlatformDetailDto(
-    @SerializedName("name") val name: String
+    @SerializedName("name") val name: String,
 )
 
 data class TagDto(
-    @SerializedName("name") val name: String
+    @SerializedName("name") val name: String,
 )

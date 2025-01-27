@@ -17,13 +17,12 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun SearchStateMessage(
     message: String,
-    modifier: Modifier = Modifier
-
+    modifier: Modifier = Modifier,
 ) {
     Text(
         text = message,
         color = Color.White,
         fontSize = 16.sp,
-        modifier = modifier.padding(16.dp)
+        modifier = modifier.padding(16.dp),
     )
 }

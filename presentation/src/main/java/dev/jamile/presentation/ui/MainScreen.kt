@@ -4,10 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.systemBarsPadding
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigation
-//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -32,9 +29,10 @@ fun MainScreen() {
             bottomBar = { BottomNavigationBar(navController) },
             content = { paddingValues ->
                 Box(
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .statusBarsPadding()
+                    modifier =
+                        Modifier
+                            .padding(paddingValues)
+                            .statusBarsPadding(),
                 ) {
                     Navigation(navController)
                 }
@@ -45,15 +43,16 @@ fun MainScreen() {
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
-    val items = listOf(
-        NavItem.Home,
-        NavItem.Search,
-        NavItem.Favorites
-    )
+    val items =
+        listOf(
+            NavItem.Home,
+            NavItem.Search,
+            NavItem.Favorites,
+        )
     BottomNavigation(
         backgroundColor = ScreenBackgroundColor,
         contentColor = Color.White,
-        modifier = Modifier.navigationBarsPadding()
+        modifier = Modifier.navigationBarsPadding(),
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -64,13 +63,13 @@ fun BottomNavigationBar(navController: NavHostController) {
                     Icon(
                         item.icon,
                         contentDescription = item.title,
-                        tint = if (isSelected) Color.DarkGray else Color.White
+                        tint = if (isSelected) Color.White else Color.LightGray,
                     )
                 },
                 label = {
                     Text(
                         item.title,
-                        color = if (isSelected) Color.DarkGray else Color.White
+                        color = if (isSelected) Color.White else Color.LightGray,
                     )
                 },
                 selected = isSelected,
@@ -82,7 +81,7 @@ fun BottomNavigationBar(navController: NavHostController) {
                         launchSingleTop = true
                         restoreState = true
                     }
-                }
+                },
             )
         }
     }

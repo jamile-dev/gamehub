@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 data class HomeGameData(
     val popularGames: Flow<PagingData<Game>>,
-    val recentGames: Flow<PagingData<Game>>
+    val recentGames: Flow<PagingData<Game>>,
 )

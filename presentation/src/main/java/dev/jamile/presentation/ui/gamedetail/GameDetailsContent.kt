@@ -1,4 +1,4 @@
-package dev.jamile.presentation.ui.game_detail
+package dev.jamile.presentation.ui.gamedetail
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
@@ -29,7 +29,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -40,6 +43,7 @@ import dev.jamile.presentation.components.RatingIndicator
 import dev.jamile.presentation.ui.theme.AppTypography
 import dev.jamile.presentation.ui.theme.Roboto
 import dev.jamile.presentation.ui.theme.ScreenBackgroundColor
+import dev.jamile.presentation.utils.formatDate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -49,12 +53,13 @@ import kotlinx.coroutines.launch
  *
  * @param gameDetails The details of the game to display.
  * @param navController The NavController for navigation.
+ * @param viewModel The ViewModel to manage game details.
  */
 @Composable
 fun GameDetailContent(
     gameDetails: GameDetails,
     navController: NavController,
-    viewModel: GameDetailViewModel = hiltViewModel()
+    viewModel: GameDetailViewModel = hiltViewModel(),
 ) {
     val scrollState = rememberScrollState()
     val gameScroller by remember {
@@ -63,18 +68,20 @@ fun GameDetailContent(
     val transitionState = remember(gameScroller) { gameScroller.toolbarTransitionState }
 
     val transition = rememberTransition(transitionState, label = "")
-    val contentAlpha = transition.animateFloat(
-        transitionSpec = { spring(stiffness = Spring.StiffnessLow) }, label = ""
-    ) { toolbarTransitionState ->
-        if (toolbarTransitionState == ToolbarState.HIDDEN) 1f else 0f
-    }
+    val contentAlpha =
+        transition.animateFloat(
+            transitionSpec = { spring(stiffness = Spring.StiffnessLow) },
+            label = "",
+        ) { toolbarTransitionState ->
+            if (toolbarTransitionState == ToolbarState.HIDDEN) 1f else 0f
+        }
     val isFavorite by viewModel.isFavorite.collectAsState()
 
     var scale by remember { mutableFloatStateOf(1f) }
     var rotation by remember { mutableFloatStateOf(0f) }
     val animatedTint by animateColorAsState(
         targetValue = if (isFavorite == true) Color.Red else Color.White,
-        animationSpec = tween(durationMillis = 500)
+        animationSpec = tween(durationMillis = 500),
     )
 
     LaunchedEffect(isFavorite) {
@@ -91,9 +98,10 @@ fun GameDetailContent(
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(ScreenBackgroundColor)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(ScreenBackgroundColor),
     ) {
         Column(Modifier.verticalScroll(scrollState)) {
             GameDetailHeader(gameDetails.backgroundImage, scrollState)
@@ -102,35 +110,39 @@ fun GameDetailContent(
                 text = gameDetails.name,
                 fontFamily = Roboto,
                 style = AppTypography.headlineLarge,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(12.dp),
             )
             PlatformLogos(
                 platforms = gameDetails.platforms ?: emptyList(),
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
             )
             Spacer(modifier = Modifier.height(8.dp))
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 RatingIndicator(
                     rating = gameDetails.rating ?: 0.0,
-                    modifier = Modifier.padding(8.dp)
+                    modifier = Modifier.padding(8.dp),
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 GenreChips(genres = gameDetails.genres, modifier = Modifier.padding(8.dp))
                 Spacer(modifier = Modifier.height(16.dp))
             }
             Text(
-                text = "Release Date: ${gameDetails.released}",
+                text = "Release Date: ${gameDetails.released?.formatDate()}",
                 style = AppTypography.labelLarge,
-                modifier = Modifier.padding(8.dp)
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(8.dp),
             )
             Text(
                 text = gameDetails.description ?: "",
                 textAlign = TextAlign.Justify,
-                style = AppTypography.titleLarge,
-                modifier = Modifier.padding(8.dp)
+                style =
+                    AppTypography.bodyLarge.copy(
+                        letterSpacing = TextUnit(value = 1.5f, type = TextUnitType.Sp),
+                    ),
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
             )
             Spacer(modifier = Modifier.height(8.dp))
         }
@@ -143,7 +155,7 @@ fun GameDetailContent(
             isFavorite = isFavorite,
             onFavoriteClick = {
                 viewModel.toggleFavorite(gameDetails)
-            }
+            },
         )
     }
 }

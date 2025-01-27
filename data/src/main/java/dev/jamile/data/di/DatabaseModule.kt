@@ -14,19 +14,18 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
-
     @Provides
     @Singleton
-    fun provideGameDatabase(@ApplicationContext appContext: Context): GameDatabase {
-        return Room.databaseBuilder(
-            appContext,
-            GameDatabase::class.java,
-            "game_database"
-        ).build()
-    }
+    fun provideGameDatabase(
+        @ApplicationContext appContext: Context,
+    ): GameDatabase =
+        Room
+            .databaseBuilder(
+                appContext,
+                GameDatabase::class.java,
+                "game_database",
+            ).build()
 
     @Provides
-    fun provideFavoriteGameDao(database: GameDatabase): FavoriteGameDao {
-        return database.favoriteGameDao()
-    }
+    fun provideFavoriteGameDao(database: GameDatabase): FavoriteGameDao = database.favoriteGameDao()
 }

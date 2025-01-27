@@ -15,96 +15,102 @@ import org.junit.Test
 import kotlin.random.Random
 
 class FavoriteGamesRepositoryImplTest {
-
     private val favoriteGameDao: FavoriteGameDao = mockk()
     private val repository = FavoriteGamesRepositoryImpl(favoriteGameDao)
 
     @Test
-    fun `insertFavoriteGame inserts game into dao`() = runTest {
-        // Arrange
-        coEvery { favoriteGameDao.insertFavoriteGame(gameDetail1) } returns Unit
+    fun `insertFavoriteGame inserts game into dao`() =
+        runTest {
+            // Arrange
+            coEvery { favoriteGameDao.insertFavoriteGame(gameDetail1) } returns Unit
 
-        // Act
-        repository.insertFavoriteGame(gameDetail1)
+            // Act
+            repository.insertFavoriteGame(gameDetail1)
 
-        // Assert
-        coVerify(exactly = 1) { favoriteGameDao.insertFavoriteGame(gameDetail1) }
-    }
-
-    @Test
-    fun `deleteFavoriteGame deletes game from dao`() = runTest {
-        // Arrange
-        val id = gameDetail2.id.toString()
-        coEvery { favoriteGameDao.deleteFavoriteGame(id) } returns Unit
-
-        // Act
-        repository.deleteFavoriteGame(id)
-
-        // Assert
-        coVerify(exactly = 1) { favoriteGameDao.deleteFavoriteGame(id) }
-    }
+            // Assert
+            coVerify(exactly = 1) { favoriteGameDao.insertFavoriteGame(gameDetail1) }
+        }
 
     @Test
-    fun `getAllFavoriteGames returns games from dao`() = runTest {
-        // Arrange
-        val games = listOf(gameDetail1, gameDetail2)
-        coEvery { favoriteGameDao.getAllFavoriteGames() } returns flowOf(games)
+    fun `deleteFavoriteGame deletes game from dao`() =
+        runTest {
+            // Arrange
+            val id = gameDetail2.id.toString()
+            coEvery { favoriteGameDao.deleteFavoriteGame(id) } returns Unit
 
-        // Act
-        val result = repository.getAllFavoriteGames().first()
+            // Act
+            repository.deleteFavoriteGame(id)
 
-        // Assert
-        assertEquals(games, result)
-    }
-
-    @Test
-    fun `isGameFavorite returns true when game is favorite`() = runTest {
-        // Arrange
-        val gameId = "1"
-        coEvery { favoriteGameDao.isGameFavorite(gameId) } returns flowOf(true)
-
-        // Act
-        val result = repository.isGameFavorite(gameId).first()
-
-        // Assert
-        assertTrue(result)
-    }
+            // Assert
+            coVerify(exactly = 1) { favoriteGameDao.deleteFavoriteGame(id) }
+        }
 
     @Test
-    fun `isGameFavorite returns false when game is not favorite`() = runTest {
-        // Arrange
-        val gameId = "1"
-        coEvery { favoriteGameDao.isGameFavorite(gameId) } returns flowOf(false)
+    fun `getAllFavoriteGames returns games from dao`() =
+        runTest {
+            // Arrange
+            val games = listOf(gameDetail1, gameDetail2)
+            coEvery { favoriteGameDao.getAllFavoriteGames() } returns flowOf(games)
 
-        // Act
-        val result = repository.isGameFavorite(gameId).first()
+            // Act
+            val result = repository.getAllFavoriteGames().first()
 
-        // Assert
-        assertFalse(result)
-    }
+            // Assert
+            assertEquals(games, result)
+        }
+
+    @Test
+    fun `isGameFavorite returns true when game is favorite`() =
+        runTest {
+            // Arrange
+            val gameId = "1"
+            coEvery { favoriteGameDao.isGameFavorite(gameId) } returns flowOf(true)
+
+            // Act
+            val result = repository.isGameFavorite(gameId).first()
+
+            // Assert
+            assertTrue(result)
+        }
+
+    @Test
+    fun `isGameFavorite returns false when game is not favorite`() =
+        runTest {
+            // Arrange
+            val gameId = "1"
+            coEvery { favoriteGameDao.isGameFavorite(gameId) } returns flowOf(false)
+
+            // Act
+            val result = repository.isGameFavorite(gameId).first()
+
+            // Assert
+            assertFalse(result)
+        }
 }
+
 // TODO: improve or move this fake data declaration
-val gameDetail1 = GameDetails(
-    id = 1,
-    name = "Fake Game Details",
-    description = "A fake game description.",
-    metacritic = Random.nextInt(0, 100),
-    released = "2024-07-20",
-    backgroundImage = "https://example.com/image.jpg",
-    rating = Random.nextDouble(0.0, 5.0),
-    platforms = listOf("PC", "PS5"),
-    genres = listOf("Action", "Adventure")
-)
+val gameDetail1 =
+    GameDetails(
+        id = 1,
+        name = "Fake Game Details",
+        description = "A fake game description.",
+        metacritic = Random.nextInt(0, 100),
+        released = "2024-07-20",
+        backgroundImage = "https://example.com/image.jpg",
+        rating = Random.nextDouble(0.0, 5.0),
+        platforms = listOf("PC", "PS5"),
+        genres = listOf("Action", "Adventure"),
+    )
 
-
-val gameDetail2 = GameDetails(
-    id = 2,
-    name = "Fake Game Details",
-    description = "A fake game description.",
-    metacritic = Random.nextInt(0, 100),
-    released = "2024-07-20",
-    backgroundImage = "https://example.com/image.jpg",
-    rating = Random.nextDouble(0.0, 5.0),
-    platforms = listOf("PC", "PS5"),
-    genres = listOf("Action", "Adventure")
-)
+val gameDetail2 =
+    GameDetails(
+        id = 2,
+        name = "Fake Game Details",
+        description = "A fake game description.",
+        metacritic = Random.nextInt(0, 100),
+        released = "2024-07-20",
+        backgroundImage = "https://example.com/image.jpg",
+        rating = Random.nextDouble(0.0, 5.0),
+        platforms = listOf("PC", "PS5"),
+        genres = listOf("Action", "Adventure"),
+    )

@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,35 +37,42 @@ import dev.jamile.presentation.ui.theme.CardBackgroundColor
  * @param modifier Optional [Modifier] to apply to [GameCarouselItem]
  */
 @Composable
-fun GameCarouselItem(game: Game, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun GameCarouselItem(
+    game: Game,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Card(
-        modifier = modifier
-            .padding(8.dp)
-            .width(220.dp)
-            .padding(bottom = 12.dp)
-            .height(240.dp)
-            .clickable(onClick = onClick),
+        modifier =
+            modifier
+                .padding(8.dp)
+                .width(220.dp)
+                .padding(bottom = 12.dp)
+                .height(240.dp)
+                .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.elevatedCardElevation(4.dp),
-        colors = CardDefaults.cardColors(containerColor = CardBackgroundColor)
+        colors = CardDefaults.cardColors(containerColor = CardBackgroundColor),
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.SpaceBetween,
         ) {
             AsyncImage(
                 model = game.imageUrl,
                 contentDescription = stringResource(R.string.game_banner),
                 contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .height(120.dp)
-                    .fillMaxWidth()
+                modifier =
+                    Modifier
+                        .height(120.dp)
+                        .fillMaxWidth(),
             )
             Spacer(modifier = Modifier.height(8.dp))
 
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier =
+                    Modifier
+                        .fillMaxWidth(),
             ) {
                 PlatformLogos(
                     platforms = game.platforms ?: emptyList(),
@@ -76,21 +82,21 @@ fun GameCarouselItem(game: Game, onClick: () -> Unit, modifier: Modifier = Modif
                     color = Color.White,
                     style = AppTypography.titleLarge,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.align(Alignment.Start).padding(8.dp)
-
+                    modifier = Modifier.align(Alignment.Start).padding(8.dp),
                 )
             }
 
             Spacer(modifier = Modifier.height(4.dp))
 
             Row(
-                modifier = Modifier
-                    .padding(horizontal = 4.dp, vertical = 4.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .padding(horizontal = 2.dp, vertical = 2.dp)
+                        .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                GenreChips(game.genres, modifier = Modifier.weight(1f))
+                GenreChips(game.genres)
                 RatingIndicator(rating = game.rating, modifier = Modifier.size(32.dp))
             }
         }

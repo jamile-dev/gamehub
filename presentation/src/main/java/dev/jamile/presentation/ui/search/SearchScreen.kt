@@ -1,6 +1,5 @@
 package dev.jamile.presentation.ui.search
 
-import SearchResults
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,17 +13,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.jamile.presentation.ui.theme.ScreenBackgroundColor
 import kotlinx.coroutines.Job
 
-
 @Composable
 fun SearchScreen(
     viewModel: SearchGameViewModel = hiltViewModel(),
-    navigateToDetails: (String) -> Unit
+    navigateToDetails: (String) -> Unit,
 ) {
     val query by viewModel.searchQuery.collectAsState()
     var searchStarted by remember { mutableStateOf(false) }
@@ -32,12 +29,12 @@ fun SearchScreen(
     val coroutineScope = rememberCoroutineScope()
     val uiState by viewModel.uiState.collectAsState()
 
-
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(ScreenBackgroundColor)
-            .padding(8.dp)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(ScreenBackgroundColor)
+                .padding(8.dp),
     ) {
         SearchTextField(
             query = remember { mutableStateOf(query) },
@@ -47,15 +44,16 @@ fun SearchScreen(
                 searchStarted = true
                 viewModel.onSearchQueryChange(it)
             },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
         )
 
         SearchResults(
             uiState = uiState,
             navigateToDetails = navigateToDetails,
-            searchStarted = searchStarted
+            searchStarted = searchStarted,
         )
     }
 }

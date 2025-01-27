@@ -5,5 +5,5 @@ import dev.jamile.domain.models.Game
 import kotlinx.coroutines.flow.Flow
 
 data class SearchGameData(
-    val games: Flow<PagingData<Game>>
+    val games: Flow<PagingData<Game>>,
 )

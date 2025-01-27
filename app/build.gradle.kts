@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.dagger.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kt.lint)
 }
 
 android {
@@ -25,7 +26,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
         compileOptions {
@@ -44,6 +45,20 @@ android {
                 excludes += "/META-INF/{AL2.0,LGPL2.1}"
                 merges += "META-INF/LICENSE.md"
                 merges += "META-INF/LICENSE-notice.md"
+            }
+        }
+        ktlint {
+            android.set(true)
+            outputToConsole.set(true)
+            coloredOutput.set(true)
+            ignoreFailures.set(false)
+            reporters {
+                reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN)
+                reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.CHECKSTYLE)
+            }
+            filter {
+                exclude("**/generated/**")
+                include("**/kotlin/**")
             }
         }
     }

@@ -9,13 +9,17 @@ class ApiKeyInterceptor : Interceptor {
         val originalRequest = chain.request()
         val originalUrl = originalRequest.url
 
-        val urlWithApiKey = originalUrl.newBuilder()
-            .addQueryParameter("key", BuildConfig.API_KEY)
-            .build()
+        val urlWithApiKey =
+            originalUrl
+                .newBuilder()
+                .addQueryParameter("key", BuildConfig.API_KEY)
+                .build()
 
-        val requestWithApiKey = originalRequest.newBuilder()
-            .url(urlWithApiKey)
-            .build()
+        val requestWithApiKey =
+            originalRequest
+                .newBuilder()
+                .url(urlWithApiKey)
+                .build()
 
         return chain.proceed(requestWithApiKey)
     }
