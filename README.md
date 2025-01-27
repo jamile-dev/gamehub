@@ -64,8 +64,10 @@ This command will compile the project and generate a debug APK that you can inst
 To run the app, you can either:
 From Android Studio: Click the "Run" button (usually a green play icon) in the toolbar.
 From the terminal: After building the project, use the following command:
+```
 ./gradlew installDebug  // On Linux/macOS
 gradlew installDebug    // On Windows
+```
 
 This will install the debug APK on a connected device or emulator and launch the app.
 
