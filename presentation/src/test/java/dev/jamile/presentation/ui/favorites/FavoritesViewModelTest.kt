@@ -19,11 +19,9 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import kotlin.random.Random
 
-
 @RunWith(MockitoJUnitRunner::class)
 @OptIn(ExperimentalCoroutinesApi::class)
 class FavoritesViewModelTest : BaseViewModelTest() {
-
     private val favoriteGamesRepository: FavoriteGamesRepository = mockk()
 
     private lateinit var viewModel: FavoritesViewModel
@@ -34,65 +32,70 @@ class FavoritesViewModelTest : BaseViewModelTest() {
     }
 
     @Test
-    fun `loadFavoriteGames updates uiState to Success with games`() = runTest {
-        // Arrange
-        val mockGames = listOf(gameDetail1, gameDetail2)
-        coEvery { favoriteGamesRepository.getAllFavoriteGames() } returns flowOf(mockGames)
+    fun `loadFavoriteGames updates uiState to Success with games`() =
+        runTest {
+            // Arrange
+            val mockGames = listOf(gameDetail1, gameDetail2)
+            coEvery { favoriteGamesRepository.getAllFavoriteGames() } returns flowOf(mockGames)
 
-        // Act
-        viewModel.loadFavoriteGames()
+            // Act
+            viewModel.loadFavoriteGames()
 
-        // Assert
-        val uiStates = mutableListOf<UIState<List<GameDetails>>>()
-        val job = launch {
-            viewModel.uiState.collect { uiStates.add(it) }
+            // Assert
+            val uiStates = mutableListOf<UIState<List<GameDetails>>>()
+            val job =
+                launch {
+                    viewModel.uiState.collect { uiStates.add(it) }
+                }
+            advanceUntilIdle()
+            assertEquals(UIState.Success(mockGames), uiStates.last())
+            job.cancel()
         }
-        advanceUntilIdle()
-        assertEquals(UIState.Success(mockGames), uiStates.last())
-        job.cancel()
-    }
 
     @Test
-    fun `loadFavoriteGames updates uiState to Error when repository throws exception`() = runTest {
-        // Arrange
-        val exception = Exception("Database error")
-        coEvery { favoriteGamesRepository.getAllFavoriteGames() } throws exception
+    fun `loadFavoriteGames updates uiState to Error when repository throws exception`() =
+        runTest {
+            // Arrange
+            val exception = Exception("Database error")
+            coEvery { favoriteGamesRepository.getAllFavoriteGames() } throws exception
 
-        // Act
-        viewModel.loadFavoriteGames()
+            // Act
+            viewModel.loadFavoriteGames()
 
-        // Assert
-        val uiStates = mutableListOf<UIState<List<GameDetails>>>()
-        val job = launch {
-            viewModel.uiState.collect { uiStates.add(it) }
+            // Assert
+            val uiStates = mutableListOf<UIState<List<GameDetails>>>()
+            val job =
+                launch {
+                    viewModel.uiState.collect { uiStates.add(it) }
+                }
+            advanceUntilIdle()
+            assertTrue(uiStates.any { it is UIState.Error && it.exception == exception })
+            job.cancel()
         }
-        advanceUntilIdle()
-        assertTrue(uiStates.any { it is UIState.Error && it.exception == exception })
-        job.cancel()
-    }
 }
 
-val gameDetail1 = GameDetails(
-    id = 1,
-    name = "Fake Game Details",
-    description = "A fake game description.",
-    metacritic = Random.nextInt(0, 100),
-    released = "2024-07-20",
-    backgroundImage = "https://example.com/image.jpg",
-    rating = Random.nextDouble(0.0, 5.0),
-    platforms = listOf("PC", "PS5"),
-    genres = listOf("Action", "Adventure")
-)
+val gameDetail1 =
+    GameDetails(
+        id = 1,
+        name = "Fake Game Details",
+        description = "A fake game description.",
+        metacritic = Random.nextInt(0, 100),
+        released = "2024-07-20",
+        backgroundImage = "https://example.com/image.jpg",
+        rating = Random.nextDouble(0.0, 5.0),
+        platforms = listOf("PC", "PS5"),
+        genres = listOf("Action", "Adventure"),
+    )
 
-
-val gameDetail2 = GameDetails(
-    id = 2,
-    name = "Fake Game Details",
-    description = "A fake game description.",
-    metacritic = Random.nextInt(0, 100),
-    released = "2024-07-20",
-    backgroundImage = "https://example.com/image.jpg",
-    rating = Random.nextDouble(0.0, 5.0),
-    platforms = listOf("PC", "PS5"),
-    genres = listOf("Action", "Adventure")
-)
+val gameDetail2 =
+    GameDetails(
+        id = 2,
+        name = "Fake Game Details",
+        description = "A fake game description.",
+        metacritic = Random.nextInt(0, 100),
+        released = "2024-07-20",
+        backgroundImage = "https://example.com/image.jpg",
+        rating = Random.nextDouble(0.0, 5.0),
+        platforms = listOf("PC", "PS5"),
+        genres = listOf("Action", "Adventure"),
+    )

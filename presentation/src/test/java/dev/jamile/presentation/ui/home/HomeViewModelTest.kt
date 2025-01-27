@@ -33,47 +33,51 @@ class HomeViewModelTest : BaseViewModelTest() {
     }
 
     @Test
-    fun `initial uiState is Loading`() = runTest {
-        assertEquals(UIState.Loading, viewModel.uiState.value)
-    }
+    fun `initial uiState is Loading`() =
+        runTest {
+            assertEquals(UIState.Loading, viewModel.uiState.value)
+        }
 
     @Test
-    fun `loadGames success`() = runTest {
-        val mockPopularGames = Success(listOf(fakeGame1))
-        val mockRecentGames = Success(listOf(fakeGame2))
+    fun `loadGames success`() =
+        runTest {
+            val mockPopularGames = Success(listOf(fakeGame1))
+            val mockRecentGames = Success(listOf(fakeGame2))
 
-        coEvery { getPopularGamesUseCase(any()) } returns mockPopularGames
-        coEvery { getRecentGamesUseCase(any()) } returns mockRecentGames
+            coEvery { getPopularGamesUseCase(any()) } returns mockPopularGames
+            coEvery { getRecentGamesUseCase(any()) } returns mockRecentGames
 
-        viewModel.loadGames()
-        advanceUntilIdle()
+            viewModel.loadGames()
+            advanceUntilIdle()
 
-        assertTrue(viewModel.uiState.value is UIState.Success)
-    }
+            assertTrue(viewModel.uiState.value is UIState.Success)
+        }
 }
 
-val fakeGame1 = Game(
-    id = "1",
-    name = "Fake Game ${Random.nextInt(100)}",
-    genres = listOf("Action", "Adventure", "RPG"),
-    platforms = listOf("PC", "PlayStation 5", "Xbox Series X"),
-    imageUrl = "https://via.placeholder.com/150",
-    rating = Random.nextDouble(1.0, 5.0),
-    metaScore = Random.nextInt(50, 100),
-    releaseDate = "2024-07-20",
-    description = "This is a fake game description.",
-    tags = listOf("Singleplayer", "Multiplayer", "Open World")
-)
+val fakeGame1 =
+    Game(
+        id = "1",
+        name = "Fake Game ${Random.nextInt(100)}",
+        genres = listOf("Action", "Adventure", "RPG"),
+        platforms = listOf("PC", "PlayStation 5", "Xbox Series X"),
+        imageUrl = "https://via.placeholder.com/150",
+        rating = Random.nextDouble(1.0, 5.0),
+        metaScore = Random.nextInt(50, 100),
+        releaseDate = "2024-07-20",
+        description = "This is a fake game description.",
+        tags = listOf("Singleplayer", "Multiplayer", "Open World"),
+    )
 
-val fakeGame2 = Game(
-    id = "2",
-    name = "Fake Game ${Random.nextInt(100)}",
-    genres = listOf("Action", "Adventure", "RPG"),
-    platforms = listOf("PC", "PlayStation 5", "Xbox Series X"),
-    imageUrl = "https://via.placeholder.com/150",
-    rating = Random.nextDouble(1.0, 5.0),
-    metaScore = Random.nextInt(50, 100),
-    releaseDate = "2024-07-20",
-    description = "This is a fake game description.",
-    tags = listOf("Singleplayer", "Multiplayer", "Open World")
-)
+val fakeGame2 =
+    Game(
+        id = "2",
+        name = "Fake Game ${Random.nextInt(100)}",
+        genres = listOf("Action", "Adventure", "RPG"),
+        platforms = listOf("PC", "PlayStation 5", "Xbox Series X"),
+        imageUrl = "https://via.placeholder.com/150",
+        rating = Random.nextDouble(1.0, 5.0),
+        metaScore = Random.nextInt(50, 100),
+        releaseDate = "2024-07-20",
+        description = "This is a fake game description.",
+        tags = listOf("Singleplayer", "Multiplayer", "Open World"),
+    )
