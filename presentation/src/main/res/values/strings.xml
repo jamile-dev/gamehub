@@ -6,4 +6,6 @@
     <string name="best_of_year">Best of Year</string>
     <string name="no_more_items_to_load">No more items to load</string>
     <string name="unkown_error">Unkown error</string>
+    <string name="remove_from_favorites">Remove from favorites</string>
+    <string name="add_to_favorites">Add to favorites</string>
 </resources>

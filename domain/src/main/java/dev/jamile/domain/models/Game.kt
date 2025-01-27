@@ -9,6 +9,6 @@ data class Game(
     val rating: Double,
     val metaScore: Int,
     val releaseDate: String,
-    val description: String?,
-    val tags: List<String>?
+    val description: String? = null,
+    val tags: List<String>? = null
 )

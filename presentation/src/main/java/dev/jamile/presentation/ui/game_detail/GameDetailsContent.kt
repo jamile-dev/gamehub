@@ -1,9 +1,11 @@
 package dev.jamile.presentation.ui.game_detail
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,13 +19,19 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.jamile.domain.models.GameDetails
 import dev.jamile.presentation.components.GenreChips
@@ -32,6 +40,8 @@ import dev.jamile.presentation.components.RatingIndicator
 import dev.jamile.presentation.ui.theme.AppTypography
 import dev.jamile.presentation.ui.theme.Roboto
 import dev.jamile.presentation.ui.theme.ScreenBackgroundColor
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * Composable function that displays the content of the game detail screen.
@@ -41,7 +51,11 @@ import dev.jamile.presentation.ui.theme.ScreenBackgroundColor
  * @param navController The NavController for navigation.
  */
 @Composable
-fun GameDetailContent(gameDetails: GameDetails, navController: NavController) {
+fun GameDetailContent(
+    gameDetails: GameDetails,
+    navController: NavController,
+    viewModel: GameDetailViewModel = hiltViewModel()
+) {
     val scrollState = rememberScrollState()
     val gameScroller by remember {
         mutableStateOf(GameDetailsScroller(scrollState, Float.MIN_VALUE))
@@ -53,6 +67,27 @@ fun GameDetailContent(gameDetails: GameDetails, navController: NavController) {
         transitionSpec = { spring(stiffness = Spring.StiffnessLow) }, label = ""
     ) { toolbarTransitionState ->
         if (toolbarTransitionState == ToolbarState.HIDDEN) 1f else 0f
+    }
+    val isFavorite by viewModel.isFavorite.collectAsState()
+
+    var scale by remember { mutableFloatStateOf(1f) }
+    var rotation by remember { mutableFloatStateOf(0f) }
+    val animatedTint by animateColorAsState(
+        targetValue = if (isFavorite == true) Color.Red else Color.White,
+        animationSpec = tween(durationMillis = 500)
+    )
+
+    LaunchedEffect(isFavorite) {
+        if (isFavorite != null) {
+            scale = 0.8f
+            rotation = 360f * 2f
+
+            launch {
+                delay(500)
+                scale = 1f
+                rotation = 0f
+            }
+        }
     }
 
     Box(
@@ -100,9 +135,15 @@ fun GameDetailContent(gameDetails: GameDetails, navController: NavController) {
             Spacer(modifier = Modifier.height(8.dp))
         }
         GameToolbar(
-            navController,
+            navController = navController,
             contentAlpha = { contentAlpha.value },
-            onFavoriteClick = { }
+            tint = animatedTint,
+            scale = scale,
+            rotation = rotation,
+            isFavorite = isFavorite,
+            onFavoriteClick = {
+                viewModel.toggleFavorite(gameDetails)
+            }
         )
     }
 }

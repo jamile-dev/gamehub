@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.dagger.hilt)
-    kotlin("kapt")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -63,7 +63,7 @@ android {
         implementation(libs.androidx.material3)
 
         implementation(libs.hilt.android)
-        kapt(libs.hilt.compiler)
+        ksp(libs.hilt.compiler)
 
         testImplementation(libs.junit)
         androidTestImplementation(libs.androidx.junit)
