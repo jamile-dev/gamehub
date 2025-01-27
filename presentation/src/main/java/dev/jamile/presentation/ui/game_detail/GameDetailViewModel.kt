@@ -25,7 +25,8 @@ class GameDetailViewModel @Inject constructor(
             when (val result = getGameDetailsUseCase.execute(gameId)) {
                 is Result.Success -> _uiState.value = UIState.Success(result.data)
                 is Result.Error -> _uiState.value =
-                    UIState.Error(result.exception.message ?: "Unknown error")
+                    UIState.Error(Throwable(result.exception.message ?: "Unknown error"))
+
             }
         }
     }

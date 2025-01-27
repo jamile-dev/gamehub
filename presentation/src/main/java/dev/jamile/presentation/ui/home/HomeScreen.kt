@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -44,6 +45,8 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToDetails: (String) -> Unit
 ) {
+
+    LaunchedEffect(Unit) { viewModel.loadGames() }
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
         topBar = {
@@ -76,8 +79,8 @@ fun HomeScreen(
                     }
 
                     is UIState.Error -> {
-                        val message = (uiState as UIState.Error).message
-                        ErrorScreen(message = message, onRetry = { /* Retry logic */ })
+                        val message = (uiState as UIState.Error)
+                        ErrorScreen(message = "Error", onRetry = { /* Retry logic */ })
                     }
 
                     is UIState.Success -> {

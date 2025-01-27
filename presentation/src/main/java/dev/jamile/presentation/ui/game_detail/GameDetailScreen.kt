@@ -51,7 +51,7 @@ fun GameDetailScreen(
                 navController
             )
 
-            is UIState.Error -> ErrorScreen((uiState as UIState.Error).message, {})
+            is UIState.Error -> ErrorScreen("", { })
         }
     }
 }

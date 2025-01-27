@@ -41,7 +41,7 @@ fun SearchResults(
         }
 
         is UIState.Error -> {
-            val message = uiState.message
+            val message = ""
             ErrorScreen(message = message, onRetry = { /* Retry logic */ })
         }
 
