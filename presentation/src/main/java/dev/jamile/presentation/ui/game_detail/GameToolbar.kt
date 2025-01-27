@@ -1,10 +1,7 @@
 package dev.jamile.presentation.ui.game_detail
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -15,14 +12,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -36,51 +30,58 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import dev.jamile.presentation.R
 import dev.jamile.presentation.ui.theme.ScreenBackgroundColor
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 /**
  * Composable function that displays the toolbar for the game detail screen.
- * The toolbar shows the game name and a back navigation icon.
- * The toolbar fades in and out based on the scroll state.
+ * It includes a back button, favorite button, and title.
  *
+ * @param navController The NavController for navigation.
+ * @param contentAlpha A lambda function to get the alpha value for the content.
+ * @param tint The color tint for the favorite button.
+ * @param scale The scale value for the favorite button animation.
+ * @param rotation The rotation value for the favorite button animation.
+ * @param isFavorite A boolean indicating if the game is marked as favorite.
+ * @param onFavoriteClick A lambda function to handle favorite button click.
+ * @param modifier Optional [Modifier] to apply to the [GameToolbar] container.
  */
 @Composable
 fun GameToolbar(
     navController: NavController,
     contentAlpha: () -> Float,
-    isFavorite: Boolean? = false,
-    onFavoriteClick: () -> Unit,
     tint: Color,
     scale: Float,
     rotation: Float,
+    isFavorite: Boolean? = false,
+    onFavoriteClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(
             onClick = { navController.navigateUp() },
-            modifier = Modifier
-                .background(ScreenBackgroundColor, shape = CircleShape)
-                .size(32.dp)
-                .clickable(
-                    onClick = { },
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = ripple()
-                )
-                .alpha(contentAlpha())
+            modifier =
+                Modifier
+                    .background(ScreenBackgroundColor, shape = CircleShape)
+                    .size(32.dp)
+                    .clickable(
+                        onClick = { },
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = ripple(),
+                    ).alpha(contentAlpha()),
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "Back",
-                tint = Color.White
+                tint = Color.White,
             )
         }
         IconButton(
@@ -89,21 +90,27 @@ fun GameToolbar(
                     onFavoriteClick()
                 }
             },
-            modifier = modifier
-                .background(ScreenBackgroundColor, shape = CircleShape)
-                .size(32.dp)
-                .scale(scale)
-                .alpha(contentAlpha())
-                .graphicsLayer {
-                    rotationY = rotation
-                }
+            modifier =
+                modifier
+                    .background(ScreenBackgroundColor, shape = CircleShape)
+                    .size(32.dp)
+                    .scale(scale)
+                    .alpha(contentAlpha())
+                    .graphicsLayer {
+                        rotationY = rotation
+                    },
         ) {
             Icon(
                 imageVector = if (isFavorite == true) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                contentDescription = if (isFavorite == true) stringResource(R.string.remove_from_favorites) else stringResource(
-                    R.string.add_to_favorites
-                ),
-                tint = tint
+                contentDescription =
+                    if (isFavorite == true) {
+                        stringResource(R.string.remove_from_favorites)
+                    } else {
+                        stringResource(
+                            R.string.add_to_favorites,
+                        )
+                    },
+                tint = tint,
             )
         }
     }

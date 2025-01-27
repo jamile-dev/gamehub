@@ -31,9 +31,10 @@ fun MainScreen() {
             bottomBar = { BottomNavigationBar(navController) },
             content = { paddingValues ->
                 Box(
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .statusBarsPadding()
+                    modifier =
+                        Modifier
+                            .padding(paddingValues)
+                            .statusBarsPadding(),
                 ) {
                     Navigation(navController)
                 }
@@ -44,15 +45,16 @@ fun MainScreen() {
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
-    val items = listOf(
-        NavItem.Home,
-        NavItem.Search,
-        NavItem.Favorites
-    )
+    val items =
+        listOf(
+            NavItem.Home,
+            NavItem.Search,
+            NavItem.Favorites,
+        )
     BottomNavigation(
         backgroundColor = ScreenBackgroundColor,
         contentColor = Color.White,
-        modifier = Modifier.navigationBarsPadding()
+        modifier = Modifier.navigationBarsPadding(),
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -63,13 +65,13 @@ fun BottomNavigationBar(navController: NavHostController) {
                     Icon(
                         item.icon,
                         contentDescription = item.title,
-                        tint = if (isSelected) Color.White else Color.LightGray
+                        tint = if (isSelected) Color.White else Color.LightGray,
                     )
                 },
                 label = {
                     Text(
                         item.title,
-                        color = if (isSelected) Color.White else Color.LightGray
+                        color = if (isSelected) Color.White else Color.LightGray,
                     )
                 },
                 selected = isSelected,
@@ -81,7 +83,7 @@ fun BottomNavigationBar(navController: NavHostController) {
                         launchSingleTop = true
                         restoreState = true
                     }
-                }
+                },
             )
         }
     }

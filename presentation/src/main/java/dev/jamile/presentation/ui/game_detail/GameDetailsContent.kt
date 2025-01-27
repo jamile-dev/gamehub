@@ -53,12 +53,13 @@ import kotlinx.coroutines.launch
  *
  * @param gameDetails The details of the game to display.
  * @param navController The NavController for navigation.
+ * @param viewModel The ViewModel to manage game details.
  */
 @Composable
 fun GameDetailContent(
     gameDetails: GameDetails,
     navController: NavController,
-    viewModel: GameDetailViewModel = hiltViewModel()
+    viewModel: GameDetailViewModel = hiltViewModel(),
 ) {
     val scrollState = rememberScrollState()
     val gameScroller by remember {
@@ -67,18 +68,20 @@ fun GameDetailContent(
     val transitionState = remember(gameScroller) { gameScroller.toolbarTransitionState }
 
     val transition = rememberTransition(transitionState, label = "")
-    val contentAlpha = transition.animateFloat(
-        transitionSpec = { spring(stiffness = Spring.StiffnessLow) }, label = ""
-    ) { toolbarTransitionState ->
-        if (toolbarTransitionState == ToolbarState.HIDDEN) 1f else 0f
-    }
+    val contentAlpha =
+        transition.animateFloat(
+            transitionSpec = { spring(stiffness = Spring.StiffnessLow) },
+            label = "",
+        ) { toolbarTransitionState ->
+            if (toolbarTransitionState == ToolbarState.HIDDEN) 1f else 0f
+        }
     val isFavorite by viewModel.isFavorite.collectAsState()
 
     var scale by remember { mutableFloatStateOf(1f) }
     var rotation by remember { mutableFloatStateOf(0f) }
     val animatedTint by animateColorAsState(
         targetValue = if (isFavorite == true) Color.Red else Color.White,
-        animationSpec = tween(durationMillis = 500)
+        animationSpec = tween(durationMillis = 500),
     )
 
     LaunchedEffect(isFavorite) {
@@ -95,9 +98,10 @@ fun GameDetailContent(
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(ScreenBackgroundColor)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(ScreenBackgroundColor),
     ) {
         Column(Modifier.verticalScroll(scrollState)) {
             GameDetailHeader(gameDetails.backgroundImage, scrollState)
@@ -106,20 +110,20 @@ fun GameDetailContent(
                 text = gameDetails.name,
                 fontFamily = Roboto,
                 style = AppTypography.headlineLarge,
-                modifier = Modifier.padding(12.dp)
+                modifier = Modifier.padding(12.dp),
             )
             PlatformLogos(
                 platforms = gameDetails.platforms ?: emptyList(),
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
             )
             Spacer(modifier = Modifier.height(8.dp))
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 RatingIndicator(
                     rating = gameDetails.rating ?: 0.0,
-                    modifier = Modifier.padding(8.dp)
+                    modifier = Modifier.padding(8.dp),
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 GenreChips(genres = gameDetails.genres, modifier = Modifier.padding(8.dp))
@@ -129,15 +133,16 @@ fun GameDetailContent(
                 text = "Release Date: ${gameDetails.released?.formatDate()}",
                 style = AppTypography.labelLarge,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
             )
             Text(
                 text = gameDetails.description ?: "",
                 textAlign = TextAlign.Justify,
-                style = AppTypography.bodyLarge.copy(
-                    letterSpacing = TextUnit(value = 1.5f, type = TextUnitType.Sp)
-                ),
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+                style =
+                    AppTypography.bodyLarge.copy(
+                        letterSpacing = TextUnit(value = 1.5f, type = TextUnitType.Sp),
+                    ),
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
             )
             Spacer(modifier = Modifier.height(8.dp))
         }
@@ -150,7 +155,7 @@ fun GameDetailContent(
             isFavorite = isFavorite,
             onFavoriteClick = {
                 viewModel.toggleFavorite(gameDetails)
-            }
+            },
         )
     }
 }

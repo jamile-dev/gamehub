@@ -1,3 +1,5 @@
+package dev.jamile.presentation.ui.search
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,8 +20,6 @@ import dev.jamile.presentation.components.ErrorScreen
 import dev.jamile.presentation.components.GameListItem
 import dev.jamile.presentation.components.LoadingScreen
 import dev.jamile.presentation.state.UIState
-import dev.jamile.presentation.ui.search.SearchGameData
-import dev.jamile.presentation.ui.search.SearchStateMessage
 import dev.jamile.presentation.ui.theme.CardBackgroundColor
 
 /**
@@ -33,7 +33,7 @@ import dev.jamile.presentation.ui.theme.CardBackgroundColor
 fun SearchResults(
     uiState: UIState<SearchGameData>,
     navigateToDetails: (String) -> Unit,
-    searchStarted: Boolean
+    searchStarted: Boolean,
 ) {
     when (uiState) {
         is UIState.Loading -> {
@@ -41,7 +41,7 @@ fun SearchResults(
         }
 
         is UIState.Error -> {
-            val message = ""
+            val message = "Unknown error"
             ErrorScreen(message = message, onRetry = { /* Retry logic */ })
         }
 
@@ -52,24 +52,27 @@ fun SearchResults(
                 SearchStateMessage(message = "No results found")
             } else {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp)
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
                 ) {
                     LazyColumn {
                         items(games.itemCount) { index ->
                             games[index]?.let {
                                 Card(
-                                    colors = CardDefaults.cardColors(
-                                        containerColor = CardBackgroundColor
-                                    ),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 4.dp)
+                                    colors =
+                                        CardDefaults.cardColors(
+                                            containerColor = CardBackgroundColor,
+                                        ),
+                                    modifier =
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .padding(vertical = 4.dp),
                                 ) {
                                     GameListItem(
                                         game = it,
-                                        onClick = { navigateToDetails(it.id) }
+                                        onClick = { navigateToDetails(it.id) },
                                     )
                                 }
                             }
@@ -81,7 +84,7 @@ fun SearchResults(
                                 item {
                                     ErrorScreen(
                                         message = "Error: ${e.error.localizedMessage}",
-                                        onRetry = { games.retry() }
+                                        onRetry = { games.retry() },
                                     )
                                 }
                             }

@@ -18,34 +18,35 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val getPopularGamesUseCase: GetMostPopularGamesUseCase,
-    private val getRecentGamesUseCase: GetRecentGamesUseCase
-) : ViewModel() {
+class HomeViewModel
+    @Inject
+    constructor(
+        private val getPopularGamesUseCase: GetMostPopularGamesUseCase,
+        private val getRecentGamesUseCase: GetRecentGamesUseCase,
+    ) : ViewModel() {
+        private val _uiState = MutableStateFlow<UIState<HomeGameData>>(UIState.Loading)
+        val uiState: StateFlow<UIState<HomeGameData>> = _uiState
 
-    private val _uiState = MutableStateFlow<UIState<HomeGameData>>(UIState.Loading)
-    val uiState: StateFlow<UIState<HomeGameData>> = _uiState
+        private var popularGamesFlow: Flow<PagingData<Game>>? = null
+        private var recentGamesFlow: Flow<PagingData<Game>>? = null
 
-    private var popularGamesFlow: Flow<PagingData<Game>>? = null
-    private var recentGamesFlow: Flow<PagingData<Game>>? = null
+        fun loadGames() =
+            viewModelScope.launch {
+                _uiState.value = UIState.Loading
 
-    fun loadGames() = viewModelScope.launch {
-        _uiState.value = UIState.Loading
+                try {
+                    popularGamesFlow = popularGamesFlow ?: Pager(PagingConfig(pageSize = 10)) {
+                        GamesPagingSource { page -> getPopularGamesUseCase(page) }
+                    }.flow.cachedIn(viewModelScope)
 
-        try {
-            popularGamesFlow = popularGamesFlow ?: Pager(PagingConfig(pageSize = 10)) {
-                GamesPagingSource { page -> getPopularGamesUseCase(page) }
-            }.flow.cachedIn(viewModelScope)
+                    recentGamesFlow = recentGamesFlow ?: Pager(PagingConfig(pageSize = 10)) {
+                        GamesPagingSource { page -> getRecentGamesUseCase(page) }
+                    }.flow.cachedIn(viewModelScope)
 
-            recentGamesFlow = recentGamesFlow ?: Pager(PagingConfig(pageSize = 10)) {
-                GamesPagingSource { page -> getRecentGamesUseCase(page) }
-            }.flow.cachedIn(viewModelScope)
-
-            _uiState.value = UIState.Success(HomeGameData(popularGamesFlow!!, recentGamesFlow!!))
-        } catch (e: Exception) {
-            _uiState.value = UIState.Error(e)
-        }
+                    _uiState.value = UIState.Success(HomeGameData(popularGamesFlow!!, recentGamesFlow!!))
+                } catch (e: Exception) {
+                    _uiState.value = UIState.Error(e)
+                }
+            }
     }
-}

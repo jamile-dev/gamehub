@@ -24,35 +24,42 @@ import java.text.DecimalFormat
  * @param modifier Optional [Modifier] to apply to [RatingIndicator]
  */
 @Composable
-fun RatingIndicator(rating: Double, modifier: Modifier = Modifier) {
-    val color = when {
-        rating >= 4F -> Color(0xFF4CAF50)
-        rating >= 3F -> Color(0xFFFFEB3B)
-        rating >= 2F -> Color(0xFFFF9800)
-        else -> Color(0xFFF44336)
-    }
+fun RatingIndicator(
+    rating: Double,
+    modifier: Modifier = Modifier,
+) {
+    val color =
+        when {
+            rating >= 4F -> Color(0xFF4CAF50)
+            rating >= 3F -> Color(0xFFFFEB3B)
+            rating >= 2F -> Color(0xFFFF9800)
+            else -> Color(0xFFF44336)
+        }
 
     val backgroundColor = color.copy(alpha = 0.2f)
-    val formattedRating = DecimalFormat("#.0").format(rating)
+    val formattedRating = DecimalFormat("0.0").format(rating)
 
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier
-            .background(backgroundColor, CircleShape)
-            .border(1.dp, color, CircleShape)
-            .size(30.dp)
-            .padding(2.dp)
+        modifier =
+            modifier
+                .background(backgroundColor, CircleShape)
+                .border(1.dp, color, CircleShape)
+                .size(30.dp)
+                .padding(2.dp),
     ) {
         Text(
             text = formattedRating,
             color = Color.White,
-            style = AppTypography.labelMedium.copy(
-                fontWeight = FontWeight.Bold,
-                shadow = Shadow(
-                    color = Color.Black,
-                    blurRadius = 4f
-                )
-            )
+            style =
+                AppTypography.labelMedium.copy(
+                    fontWeight = FontWeight.Bold,
+                    shadow =
+                        Shadow(
+                            color = Color.Black,
+                            blurRadius = 4f,
+                        ),
+                ),
         )
     }
 }

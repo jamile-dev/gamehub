@@ -13,9 +13,12 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import dev.jamile.presentation.R
+import dev.jamile.presentation.ui.theme.AppTypography
+import dev.jamile.presentation.ui.theme.textColor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -28,7 +31,7 @@ import kotlinx.coroutines.launch
  * @param searchJob The current search job.
  * @param coroutineScope The coroutine scope for launching debounce jobs.
  * @param onSearch A lambda function to perform the search.
- * @param modifier The modifier to be applied to the OutlinedTextField composable.
+ * @param modifier an optional modifier to be applied to the [OutlinedTextField] composable.
  */
 @Composable
 fun SearchTextField(
@@ -36,7 +39,7 @@ fun SearchTextField(
     searchJob: MutableState<Job?>,
     coroutineScope: CoroutineScope,
     onSearch: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -45,20 +48,31 @@ fun SearchTextField(
         onValueChange = { newQuery ->
             query.value = newQuery
             searchJob.value?.cancel()
-            searchJob.value = coroutineScope.launch {
-                delay(700) // Debounce time
-                if (query.value.isNotEmpty()) {
-                    onSearch(query.value)
+            searchJob.value =
+                coroutineScope.launch {
+                    delay(600) // Debounce time
+                    if (query.value.isNotEmpty()) {
+                        onSearch(query.value)
+                    }
+                    keyboardController?.hide()
                 }
-                keyboardController?.hide()
-            }
         },
-        placeholder = { Text(text = "Search...", color = Color(0xFFB0B0B0)) },
+        textStyle =
+            AppTypography.titleLarge.copy(
+                color = textColor,
+            ),
+        placeholder = {
+            Text(
+                text = stringResource(R.string.search),
+                style = AppTypography.titleLarge,
+                color = textColor,
+            )
+        },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
                 contentDescription = "Search Icon",
-                tint = Color(0xFFB0B0B0)
+                tint = textColor,
             )
         },
         trailingIcon = {
@@ -67,26 +81,30 @@ fun SearchTextField(
                     Icon(
                         imageVector = Icons.Default.Clear,
                         contentDescription = "Clear Icon",
-                        tint = Color(0xFFB0B0B0)
+                        tint = textColor,
                     )
                 }
             }
         },
-        keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Search
-        ),
-        keyboardActions = KeyboardActions(
-            onSearch = {
-                if (query.value.isNotEmpty()) {
-                    onSearch(query.value)
-                    keyboardController?.hide()
-                }
-            }
-        ),
-        colors = TextFieldDefaults.colors(
-            focusedTextColor = Color.White
-        ),
+        keyboardOptions =
+            KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Search,
+            ),
+        keyboardActions =
+            KeyboardActions(
+                onSearch = {
+                    if (query.value.isNotEmpty()) {
+                        onSearch(query.value)
+                        keyboardController?.hide()
+                    }
+                },
+            ),
+        colors =
+            TextFieldDefaults.colors(
+                focusedTextColor = textColor,
+                unfocusedTextColor = textColor,
+            ),
         singleLine = true,
-        modifier = modifier
+        modifier = modifier,
     )
 }

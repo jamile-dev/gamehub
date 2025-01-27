@@ -27,69 +27,74 @@ import dev.jamile.presentation.ui.theme.CardBackgroundColor
 import dev.jamile.presentation.utils.formatDate
 
 /**
- * A composable that displays a game item in a list format.
+ * Composable function that displays a game item in a list.
  *
- * @param game The game to display.
- * @param onClick The callback to invoke when the item is clicked.
- * @param modifier Optional [Modifier] to apply to [GameListItem]
- *
+ * @param game The game details to display.
+ * @param onClick A lambda function to handle item click.
+ * @param modifier an optional modifier to be applied to the [GameListItem].
  */
 @Composable
-fun GameListItem(game: Game, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun GameListItem(
+    game: Game,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .clickable(onClick = onClick),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+                .clickable(onClick = onClick),
         colors = CardDefaults.cardColors(containerColor = CardBackgroundColor),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
         ) {
             AsyncImage(
                 model = game.imageUrl ?: "",
                 contentDescription = null,
                 contentScale = ContentScale.FillHeight,
-                modifier = Modifier
-                    .width(200.dp)
-                    .fillMaxHeight()
-                    .padding(end = 8.dp)
+                modifier =
+                    Modifier
+                        .width(200.dp)
+                        .fillMaxHeight()
+                        .padding(end = 8.dp),
             )
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
             ) {
                 Text(
                     game.name,
                     fontWeight = FontWeight.Bold,
                     style = AppTypography.titleMedium,
-                    modifier = Modifier.padding(2.dp)
+                    modifier = Modifier.padding(2.dp),
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = game.releaseDate.formatDate(),
                     style = AppTypography.labelMedium,
-                    modifier = Modifier.padding(2.dp)
+                    modifier = Modifier.padding(2.dp),
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 GenreChips(game.genres, modifier = Modifier.weight(1f))
-
 
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(
                     modifier = Modifier.fillMaxSize(),
                     verticalAlignment = Alignment.Bottom,
-                    horizontalArrangement = Arrangement.End
+                    horizontalArrangement = Arrangement.End,
                 ) {
                     RatingIndicator(
                         rating = game.rating,
-                        modifier = Modifier.padding(vertical = 4.dp)
+                        modifier = Modifier.padding(vertical = 4.dp),
                     )
                 }
-
             }
         }
     }

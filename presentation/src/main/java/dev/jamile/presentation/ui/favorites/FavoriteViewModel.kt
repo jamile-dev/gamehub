@@ -13,19 +13,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoritesViewModel @Inject constructor(
-    private val favoriteGamesRepository: FavoriteGamesRepository
-) : ViewModel() {
+class FavoritesViewModel
+    @Inject
+    constructor(
+        private val favoriteGamesRepository: FavoriteGamesRepository,
+    ) : ViewModel() {
+        private val _uiState = MutableStateFlow<UIState<List<GameDetails>>>(UIState.Loading)
+        val uiState: StateFlow<UIState<List<GameDetails>>> = _uiState
 
-    private val _uiState = MutableStateFlow<UIState<List<GameDetails>>>(UIState.Loading)
-    val uiState: StateFlow<UIState<List<GameDetails>>> = _uiState
-
-    fun loadFavoriteGames() = viewModelScope.launch {
-        _uiState.value = UIState.Loading
-        try {
-            _uiState.value = UIState.Success(favoriteGamesRepository.getAllFavoriteGames().first())
-        } catch (e: Exception) {
-            _uiState.value = UIState.Error(e)
-        }
+        fun loadFavoriteGames() =
+            viewModelScope.launch {
+                _uiState.value = UIState.Loading
+                try {
+                    _uiState.value = UIState.Success(favoriteGamesRepository.getAllFavoriteGames().first())
+                } catch (e: Exception) {
+                    _uiState.value = UIState.Error(e)
+                }
+            }
     }
-}

@@ -5,17 +5,29 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 
-
 private val HeaderTransitionOffset = 190.dp
 
+/**
+ * Data class that manages the scroll state and toolbar transition state
+ * for the game detail screen.
+ *
+ * @param scrollState The scroll state of the game detail screen.
+ * @param namePosition The position of the game name in the screen.
+ */
 data class GameDetailsScroller(
     val scrollState: ScrollState,
-    val namePosition: Float
+    val namePosition: Float,
 ) {
     val toolbarTransitionState = MutableTransitionState(ToolbarState.HIDDEN)
 
-    fun getToolbarState(density: Density): ToolbarState {
-        return if (namePosition > 1f &&
+    /**
+     * Determines the toolbar state based on the scroll position and name position.
+     *
+     * @param density The density of the screen to calculate the transition offset.
+     * @return The current state of the toolbar (shown or hidden).
+     */
+    fun getToolbarState(density: Density): ToolbarState =
+        if (namePosition > 1f &&
             scrollState.value > (namePosition - getTransitionOffset(density))
         ) {
             toolbarTransitionState.targetState = ToolbarState.SHOWN
@@ -24,9 +36,15 @@ data class GameDetailsScroller(
             toolbarTransitionState.targetState = ToolbarState.HIDDEN
             ToolbarState.HIDDEN
         }
-    }
 
-    private fun getTransitionOffset(density: Density): Float = with(density) {
-        HeaderTransitionOffset.toPx()
-    }
+    /**
+     * Calculates the transition offset based on the screen density.
+     *
+     * @param density The density of the screen.
+     * @return The transition offset in pixels.
+     */
+    private fun getTransitionOffset(density: Density): Float =
+        with(density) {
+            HeaderTransitionOffset.toPx()
+        }
 }
