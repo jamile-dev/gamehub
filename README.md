@@ -51,10 +51,10 @@ On Windows, you can set environment variables through the System Properties (sea
 > This project is already configured to read the API_KEY environment variable during the build process. You don't need to add it anywhere else.
 
 
-**Syncing your project:**
+## **Syncing your project:**
 After adding or modifying dependencies or making changes to the Gradle files, make sure to sync your project with Gradle to ensure that all dependencies are resolved and the project is configured correctly. You can do this by clicking the "**Sync Project with Gradle Files**" button (usually an elephant icon) in the toolbar of Android Studio.
 
-**Building the project:**
+## **Building the project:**
 To build the project, you can use the following command in your terminal:
 ```
 ./gradlew assembleDebug  // On Linux/macOS
@@ -62,8 +62,8 @@ gradlew assembleDebug    // On Windows
 ```
 This command will compile the project and generate a debug APK that you can install on a device or emulator.
 
-**Running the app:**
-To run the app, you can either:
+## **Running the app:**
+
 From Android Studio: Click the "Run" button (usually a green play icon) in the toolbar.
 From the terminal: After building the project, use the following command:
 ```
