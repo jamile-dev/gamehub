@@ -47,7 +47,9 @@ After adding this line, restart your terminal or source the file:
 
 On Windows, you can set environment variables through the System Properties (search for "environment variables" in the Start Menu).
 
-This project is already configured to read the API_KEY environment variable during the build process. You don't need to add it anywhere else.
+> [!TIP]
+> This project is already configured to read the API_KEY environment variable during the build process. You don't need to add it anywhere else.
+
 
 **Syncing your project:**
 After adding or modifying dependencies or making changes to the Gradle files, make sure to sync your project with Gradle to ensure that all dependencies are resolved and the project is configured correctly. You can do this by clicking the "**Sync Project with Gradle Files**" button (usually an elephant icon) in the toolbar of Android Studio.
