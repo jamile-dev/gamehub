@@ -86,7 +86,6 @@ This will install the debug APK on a connected device or emulator and launch the
 * **Coil:** Image loading.
 * **Material Design 3:** UI components and theming.
 * **ksp:** Kotlin Symbol Processing API for code generation and analysis.
-* **(Add any other libraries here)**
 
 ## Architecture & Data Flow
 
